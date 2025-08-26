@@ -260,3 +260,85 @@ details.faq{ margin:16px 0 20px; }
   }
   .hero-thumb{ display:none; }
 }
+/* ====== 共通: 横スクロール防止 ====== */
+body {
+  overflow-x: hidden;  /* 画面からはみ出す横スクロールを禁止 */
+}
+
+/* ====== aboutセクションのグリッド調整 ====== */
+.grid-2 {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: 1.2fr .8fr;
+}
+@media (max-width: 900px) {
+  .grid-2 { grid-template-columns: 1fr; }  /* スマホは1カラム */
+}
+
+/* ====== 画像サイズ調整（about） ====== */
+.photo-box {
+  max-width: 100%;     /* はみ出さない */
+  width: 100%;         /* 親幅に収める */
+  aspect-ratio: 1 / 1; /* 正方形を維持 */
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+}
+
+/* ====== blogカードのレスポンシブ調整 ====== */
+.cards {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .cards { grid-template-columns: 1fr; }   /* スマホは1列 */
+}
+
+/* ====== hero-stripのサムネ4枚修正 ====== */
+.hero-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;   /* ←折り返しを許可（はみ出し防止） */
+  margin-bottom: 18px;
+}
+.hero-thumb,
+.hero-main {
+  --heroSize: clamp(140px, 22vw, 220px);
+  width: var(--heroSize);
+  height: var(--heroSize);
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
+.hero-thumb {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity .55s ease, transform .55s cubic-bezier(.2,.6,.2,1);
+}
+.hero-thumb.is-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* スマホでは2×2グリッドに並べる */
+@media (max-width: 700px){
+  .hero-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .hero-main {
+    grid-column: span 2; /* ロゴは1行で中央 */
+    justify-self: center;
+  }
+  .hero-thumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+}

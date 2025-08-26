@@ -223,3 +223,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // ヒーローが表示された少し後に実行
   setTimeout(showHeroSideThumbs, 500);
 });
+function showHeroSideThumbs(){
+  const thumbs = document.querySelectorAll('.hero-strip .hero-thumb');
+  if (!thumbs.length) return;
+
+  const isSmall = window.matchMedia('(max-width: 700px)').matches;
+  const baseDelay = isSmall ? 280 : 350;
+  const step      = isSmall ? 140 : 180;
+
+  thumbs.forEach((el, i) => {
+    setTimeout(() => el.classList.add('is-in'), baseDelay + i*step);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.reveal-now').forEach(el => {
+    requestAnimationFrame(() => el.classList.add('visible'));
+  });
+  setTimeout(showHeroSideThumbs, 500);
+});

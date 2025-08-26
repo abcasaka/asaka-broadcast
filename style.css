@@ -48,14 +48,16 @@ a{color:inherit;text-decoration:none}
 .header-inner{
   display:flex; align-items:center; justify-content:space-between; height:64px;
 }
-.brand{font-weight:800; letter-spacing:.02em}
+
+/* ヘッダーロゴ */
+.brand{display:inline-flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.02em}
+.brand-logo{display:block; height:32px; width:auto; object-fit:contain;}
+
 .nav{display:flex; gap:16px}
 .nav a{padding:8px 10px; border-radius:8px}
 .nav a:hover{background:rgba(255,255,255,.06)}
 
-.nav-toggle{
-  display:none; background:none; border:none; cursor:pointer;
-}
+.nav-toggle{display:none; background:none; border:none; cursor:pointer}
 .nav-toggle .bar{display:block; width:24px; height:2px; background:#fff; margin:5px 0}
 
 @media (max-width: 800px){
@@ -77,10 +79,22 @@ a{color:inherit;text-decoration:none}
 .hero p{color:var(--muted)}
 .cta-row{margin-top:20px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
 
-.grid-2{
-  display:grid; gap:28px; grid-template-columns:1.2fr .8fr;
+/* ヒーロー画像：角丸＋横余白を少し広く */
+.hero-logo {
+  border-radius: 12px;
+  max-width: 320px;   /* 横幅を調整（例：320pxまで） */
+  height: auto;       /* 縦横比を保つ */
+  object-fit: cover;  /* 中央を切り抜き */
 }
-@media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+
+/* レイアウト */
+.grid-2{
+  display:grid; gap:28px;
+  grid-template-columns:1.2fr .8fr;
+}
+@media (max-width: 900px){
+  .grid-2{ grid-template-columns:1fr; } /* 900px未満は縦並び */
+}
 
 .check{padding-left:1.1em}
 .check li{margin:.3em 0; list-style: "✔︎  "}
@@ -91,159 +105,110 @@ a{color:inherit;text-decoration:none}
   box-shadow: 0 20px 40px rgba(0,0,0,.25);
 }
 
-.photo .photo-box{
-  width:100%; aspect-ratio:16/10; background:
-    linear-gradient(25deg, rgba(59,130,246,.3), rgba(16,185,129,.25)),
-    url('https://images.unsplash.com/photo-1517059224940-d4af9eec41e5?q=80&w=1200&auto=format&fit=crop') center/cover;
-  border-bottom:1px solid var(--border);
-}
-.photo-box {
-  width: 250px;             /* 好きなサイズ（200〜300pxくらいがおすすめ） */
-  aspect-ratio: 1 / 1;      /* 正方形にする */
-  border-radius: 12px;      /* 角丸 */
-  background-size: cover;   /* 中心を埋める */
+/* 写真2枚の横並び */
+.photo-row{display:flex; gap:20px; justify-content:center}
+.photo-row .photo-box{
+  width: 250px;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  background-size: cover;
   background-position: center;
-  flex-shrink: 0;           /* 横の文章に押しつぶされないように */
+  flex-shrink: 0;
 }
 
-.card.photo{padding:0 0 8px}
-
-.cards{
-  display:grid; gap:24px;
-  grid-template-columns: repeat(3, 1fr);
-}
+.cards{display:grid; gap:24px; grid-template-columns: repeat(3, 1fr);}
 @media (max-width: 900px){ .cards{grid-template-columns: 1fr 1fr} }
 @media (max-width: 600px){ .cards{grid-template-columns: 1fr} }
 
 .card-thumb{
   aspect-ratio: 16/9; background:
-    linear-gradient(25deg, rgba(59,130,246,.25), rgba(16,185,129,.2)),
-    url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1200&auto=format&fit=crop') center/cover;
+    linear-gradient(25deg, rgba(59,130,246,.25), rgba(16,185,129,.2));
   border-bottom:1px solid var(--border);
 }
 .card-body{padding:16px 16px 18px}
 .card-title{margin:.1em 0}
 
-.contact-form{
-  display:grid; gap:14px; max-width:640px;
-}
+.contact-form{display:grid; gap:14px; max-width:640px;}
 .contact-form input, .contact-form textarea{
   width:100%; padding:12px 14px; border-radius:12px;
   border:1px solid var(--border); background:#0a0e14; color:var(--text);
 }
 .contact-form button{justify-self:start}
 
-.site-footer{
-  padding:28px 0; border-top:1px solid var(--border); background:rgba(0,0,0,.2);
-}
+.site-footer{padding:28px 0; border-top:1px solid var(--border); background:rgba(0,0,0,.2);}
 .footer-inner{display:flex; align-items:center; justify-content:space-between; gap:12px}
 .sns{display:flex; gap:12px; flex-wrap:wrap}
-.sns-link{
-  padding:6px 10px; border:1px solid var(--border); border-radius:999px;
+.sns-link{padding:6px 10px; border:1px solid var(--border); border-radius:999px}
+
+/* ===== 出現モーション ===== */
+
+/* 通常の縦フェード */
+.reveal{
+  opacity:0; transform:translateY(12px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.2,.6,.2,1);
+  transition-delay: var(--d, 0ms); will-change: opacity, transform;
 }
-/* ====== Post Modal ====== */
-.post-dialog {
-  width: min(800px, 92%);
-  border: none;
-  border-radius: 16px;
-  padding: 0;
-  background: var(--card);
-  color: var(--text);
+.reveal.visible{opacity:1; transform:translateY(0)}
+
+/* 横スライド（about=左, blog=右） */
+.reveal-left, .reveal-right{
+  opacity:0;
+  transition: opacity .8s ease, transform .8s cubic-bezier(.2,.6,.2,1);
+  transition-delay: var(--d, 0ms); will-change: opacity, transform;
 }
+.reveal-left { transform: translateX(-18px); }
+.reveal-right{ transform: translateX( 18px); }
+.reveal-left.visible, .reveal-right.visible{ opacity:1; transform: translateX(0); }
+
+/* --- フェイルセーフ付きの早出し（ヒーロー） --- */
+/* JSが動かない時は常に見える（=消えない） */
+.reveal-now { opacity: 1; transform: none; }
+/* JS起動時だけアニメON（html.js が付与される） */
+html.js .reveal-now{
+  opacity:0; transform:translateY(8px);
+  transition: opacity .45s ease, transform .45s cubic-bezier(.2,.6,.2,1);
+}
+html.js .reveal-now.visible{ opacity:1; transform:none; }
+
+/* 短縮アニメ指定 */
+.fast.reveal, .fast.reveal-left, .fast.reveal-right, .fast.reveal-now {
+  transition-duration: .45s !important;
+}
+
+/* FAQ 見やすく */
+details.faq{ margin:16px 0 20px; }
+.faq summary{
+  cursor:pointer;
+  font-size: clamp(18px, 2.4vw, 22px);
+  font-weight: 700;
+  padding: 14px 16px;
+  border-radius: 10px;
+  line-height: 1.4;
+  transition: background .2s, color .2s;
+}
+.faq summary:hover{ background: rgba(59,130,246,.15); color: var(--primary); }
+.faq[open] summary{ background: rgba(59,130,246,.25); color: var(--primary); }
+.faq summary::-webkit-details-marker{ display:none; }
+.faq summary::after{ content:"▶"; float:right; transition: transform .2s ease; font-size:18px; }
+.faq[open] summary::after{ transform: rotate(90deg); }
+
+/* モーダル */
+.post-dialog{ width:min(800px, 92%); border:none; border-radius:16px; padding:0; background:var(--card); color:var(--text); }
 .post-dialog::backdrop { background: rgba(0,0,0,.6); }
 .post-article { padding: 20px 20px 24px; position: relative; }
-.post-close {
-  position: absolute; top: 8px; right: 10px;
-  border: 0; background: transparent; font-size: 24px; color: var(--text);
-  cursor: pointer; line-height: 1;
-}
-#postImage { width: 100%; height: auto; border-radius: 12px; margin-bottom: 12px; }
-#postBody p { margin: 0 0 1em; }
-/* Grid内の正方形画像を左寄せ＆幅固定 */
-.grid-2 > .photo-box { justify-self: start; }
+.post-close { position:absolute; top:8px; right:10px; border:0; background:transparent; font-size:24px; color:var(--text); cursor:pointer; line-height:1; }
+#postImage { width:100%; height:auto; border-radius:12px; margin-bottom:12px; }
+#postBody p { margin:0 0 1em; }
 
-/* 記事モーダルのはみ出し防止 */
-.post-dialog { max-height: 90vh; }
-.post-article { max-height: 90vh; overflow: auto; }
+/* 軽いホバー感 */
+.btn{ transition: transform .12s ease, box-shadow .12s ease; }
+.btn:hover{ transform: translateY(-1px); }
+.btn:active{ transform: translateY(0) scale(.98); }
+.card{ transition: transform .18s ease, box-shadow .18s ease; }
+.card:hover{ transform: translateY(-2px); }
 
-/* モバイルでの正方形サイズ調整（任意） */
-@media (max-width: 600px) {
-  .photo-box { width: 180px; }
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:800;
-  letter-spacing:.02em;
-  text-decoration:none;
-}
-.brand:hover{ opacity:.9; }
-
-.brand-logo{
-  width:28px;   /* 24〜40の間で好みで */
-  height:28px;
-  object-fit:cover;        /* 正方形にフィット */
-  border-radius:6px;       /* 角丸。丸にしたければ 50% */
-  flex-shrink:0;
-}
-
-/* 高解像度画面で少しだけ大きくしたい場合（お好みで） */
-@media (min-width: 900px){
-  .brand-logo{ width:32px; height:32px; }
-}
-.hero-logo {
-  display: block;
-  margin: 0 auto 16px;   /* 中央揃え + 下に余白 */
-  width: 200px;          /* お好みで 80〜200px に調整 */
-  height: auto;          /* アスペクト比を保つ */
-  border-radius: 12px;   /* 角丸。丸くしたければ 50% */
-}
-/* FAQ summary の見た目改善 */
-.faq summary {
-  cursor: pointer;                  /* 手のカーソルに */
-  padding: 10px 14px;
-  border-radius: 8px;
-  transition: background 0.2s, color 0.2s;
-  list-style: none;                 /* デフォルトの三角マークを消す（後でカスタム可） */
-  font-weight: 600;
-}
-
-/* ホバー時（マウスを乗せたとき） */
-.faq summary:hover {
-  background: rgba(59,130,246,0.15); /* 薄い青背景 */
-  color: var(--primary);            /* テキストを青系に */
-}
-
-/* 開いている時の summary */
-.faq[open] summary {
-  background: rgba(59,130,246,0.25);
-  color: var(--primary);
-}
-.faq summary::-webkit-details-marker { display: none; } /* Chrome用 */
-.faq summary::marker { display: none; }                 /* Firefox用 */
-
-.faq summary::after {
-  content: "▶";
-  float: right;
-  transition: transform 0.2s;
-}
-
-.faq[open] summary::after {
-  transform: rotate(90deg); /* 開いたら矢印を右向きに */
-}
-/* 写真を横並びにするコンテナ */
-.photo-row {
-  display: flex;
-  gap: 20px;           /* 2枚の間の余白 */
-  justify-content: center; /* 真ん中寄せ */
-}
-
-/* 画像のサイズを揃える */
-.photo-row .photo-box {
-  flex: 1;             /* 均等に幅を分ける */
-  aspect-ratio: 1 / 1; /* 正方形にする */
-  border-radius: 12px;
-  background-size: cover;
-  background-position: center;
+/* 動きを好まない設定では無効化 */
+@media (prefers-reduced-motion: reduce){
+  * { animation: none !important; transition: none !important; }
+  .reveal, .reveal-left, .reveal-right, .reveal-now { opacity: 1 !important; transform: none !important; }
 }

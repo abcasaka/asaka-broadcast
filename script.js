@@ -1,3 +1,6 @@
+// ===== JS起動フラグ（フェイルセーフ：これが走れば .reveal-now をアニメ可） =====
+document.documentElement.classList.add('js');
+
 // ===== 年表示 =====
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -15,7 +18,6 @@ if (toggle && nav) {
 // ===== ブログ（JSONPコールバック） =====
 let POST_MAP = {}; // slug -> post
 
-// Apps Script から呼ばれる関数名（index.html の callback=renderPosts と一致）
 function renderPosts(payload) {
   const wrap = document.getElementById('blog-cards');
   if (!wrap) return;
@@ -26,22 +28,18 @@ function renderPosts(payload) {
     return;
   }
 
-  // slug で引けるようにマップ化
-  POST_MAP = Object.fromEntries(
-    posts.filter(p => p.slug).map(p => [String(p.slug), p])
-  );
+  POST_MAP = Object.fromEntries(posts.filter(p => p.slug).map(p => [String(p.slug), p]));
 
-  // カードを描画（★日付は文字列のまま表示）
-  wrap.innerHTML = posts.map(p => {
+  wrap.innerHTML = posts.map((p, i) => {
     const thumb = p.image_url
       ? `linear-gradient(25deg, rgba(59,130,246,.25), rgba(16,185,129,.2)), url('${p.image_url}') center/cover`
       : `linear-gradient(25deg, rgba(59,130,246,.25), rgba(16,185,129,.2))`;
 
-    const datestr = displayDate(p.date); // ← 変換せず安全に表示
+    const datestr = displayDate(p.date);
     const slug = encodeURIComponent(p.slug || '');
 
     return `
-      <article class="card">
+      <article class="card reveal" style="--d:${i*80}ms">
         <div class="card-thumb" style="background:${thumb}" aria-hidden="true"></div>
         <div class="card-body">
           <h3 class="card-title">${escapeHTML(p.title || '')}</h3>
@@ -53,11 +51,19 @@ function renderPosts(payload) {
     `;
   }).join('');
 
-  // 「続きを読む」クリックを拾ってモーダルを開く（★onceは付けない）
-  wrap.addEventListener('click', onReadMoreClick);
+  // 追加された .reveal 等を観測（未準備なら少し待って再試行）
+  const armReveals = () => {
+    if (window.__observeReveals) {
+      window.__observeReveals(
+        wrap.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-now')
+      );
+    } else {
+      setTimeout(armReveals, 80);
+    }
+  };
+  armReveals();
 
-  // ハッシュ直リンク（#post/slug）で来た場合に対応
-  handleHash();
+  wrap.addEventListener('click', onReadMoreClick);
 }
 
 // ===== モーダル制御 =====
@@ -80,10 +86,8 @@ function openPost(slug) {
   const bodyEl  = document.getElementById('postBody');
   const imgEl   = document.getElementById('postImage');
 
-  const datestr = displayDate(p.date); // ← ここも同じ方針
-
   titleEl.textContent = p.title || '';
-  metaEl.textContent  = datestr;
+  metaEl.textContent  = displayDate(p.date);
   bodyEl.innerHTML    = toParagraphs(p.content || '');
 
   if (p.image_url) {
@@ -94,7 +98,6 @@ function openPost(slug) {
   }
 
   dlg.showModal();
-  // 戻るボタンで閉じられるようにハッシュを書き換え
   location.hash = `#post/${encodeURIComponent(slug)}`;
 }
 
@@ -107,7 +110,6 @@ if (closeBtn) {
   });
 }
 
-// ハッシュでのオープン/クローズ対応
 window.addEventListener('hashchange', handleHash);
 function handleHash() {
   const m = location.hash.match(/^#post\/(.+)$/);
@@ -131,20 +133,13 @@ function escapeHTML(str){
     ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 }
 function toParagraphs(text) {
-  // 改行2つで段落、1つなら改行に
   const safe = escapeHTML(text);
   return safe.split(/\n{2,}/).map(p =>
     `<p>${p.replace(/\n/g, '<br>')}</p>`
   ).join('');
 }
-
-// ★ 日付を“文字列のまま”安全に表示する関数
 function displayDate(dateField) {
-  // "YYYY-MM-DD" 形式ならそのまま
-  if (typeof dateField === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateField)) {
-    return dateField;
-  }
-  // 念のため：Date等が来た時だけローカル日付に整形（UTC化しない）
+  if (typeof dateField === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateField)) return dateField;
   try {
     const d = new Date(dateField);
     if (isNaN(d)) return String(dateField || '');
@@ -152,7 +147,56 @@ function displayDate(dateField) {
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const dd = String(d.getDate()).padStart(2, '0');
     return `${y}-${m}-${dd}`;
-  } catch {
-    return String(dateField || '');
-  }
+  } catch { return String(dateField || ''); }
 }
+
+// ===== 早出し：ヒーローは DOM 構築直後に可視化（JS正常時） =====
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.reveal-now').forEach(el => {
+    requestAnimationFrame(() => el.classList.add('visible'));
+  });
+});
+
+// ===== 出現アニメ：画像読込後に起動（ズレ＆早発火対策） =====
+(function(){
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  const boot = () => {
+    let io;
+    const observe = (nodes) => {
+      if (!nodes || !nodes.length) return;
+      if (!('IntersectionObserver' in window)) {
+        nodes.forEach(el => el.classList.add('visible'));
+        return;
+      }
+      if (!io) {
+        io = new IntersectionObserver((entries) => {
+          entries.forEach(en => {
+            const el = en.target;
+            const need = parseFloat(el.getAttribute('data-th')) || 0.5; // 既定0.5（contactは0.3）
+            if (en.isIntersecting && en.intersectionRatio >= need) {
+              el.classList.add('visible');
+              io.unobserve(el);
+            }
+          });
+        }, {
+          threshold: [0, 0.35, 0.5, 1],
+          rootMargin: '0px 0px -10% 0px'
+        });
+      }
+      nodes.forEach(el => io.observe(el));
+    };
+
+    // 初期ターゲット
+    observe(document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-now'));
+
+    // 後から追加される要素用に公開
+    window.__observeReveals = observe;
+
+    // ハッシュが無ければ最上部へ
+    if (!location.hash) window.scrollTo(0, 0);
+  };
+
+  // 画像も含めて読み込み完了後に起動
+  window.addEventListener('load', boot);
+})();

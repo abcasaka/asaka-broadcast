@@ -342,3 +342,91 @@ body {
     aspect-ratio: 1 / 1;
   }
 }
+/* ===== ヒーロー帯（PCは1列固定 / スマホは並び替え） ===== */
+
+/* 共通サイズ（少し小さめに調整） */
+.hero-thumb,
+.hero-main{
+  --heroSize: clamp(140px, 16vw, 200px);  /* ← PCで大きくなりすぎない */
+  width: var(--heroSize);
+  height: var(--heroSize);
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
+
+/* PC：1列固定（左2・中央ロゴ・右2） */
+.hero-strip{
+  display: grid;
+  grid-template-columns: repeat(5, var(--heroSize));
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;   /* 下の見出しとの余白 */
+}
+
+/* サムネの出現アニメ（左→右に順に） */
+.hero-thumb{
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity .55s ease, transform .55s cubic-bezier(.2,.6,.2,1);
+}
+.hero-thumb.is-in{
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* スマホ：ロゴ（1段目中央）、その下に2×2の正方形グリッド */
+@media (max-width: 700px){
+  .hero-strip{
+    grid-template-columns: 1fr 1fr; /* 2列 */
+    gap: 10px;
+  }
+  .hero-main{
+    grid-column: 1 / -1;      /* 1段目で2列ぶち抜き＝中央 */
+    justify-self: center;
+    --heroSize: clamp(160px, 56vw, 220px);
+  }
+  .hero-thumb{
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;      /* 正方形を維持 */
+    /* スマホでは全て左から出す方向でOK（視覚的差が出づらいので） */
+    transform: translateX(-10px);
+  }
+}
+
+/* 追加で横スクロール抑止（PC/スマホ共通で安全策） */
+body{ overflow-x: hidden; }
+/* --- grid-2 をスマホでは1列に --- */
+@media (max-width: 900px){
+  .grid-2 {
+    grid-template-columns: 1fr;   /* 1カラムに */
+    gap: 20px;
+  }
+  .photo-row {
+    justify-content: center;      /* 画像を中央揃え */
+    flex-wrap: wrap;
+  }
+  .photo-box {
+    width: 100%;                  /* 横幅いっぱいに */
+    max-width: 320px;             /* ただし大きすぎないよう制限 */
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;               /* 中央寄せ */
+  }
+}
+
+/* PCでは今まで通り横並び */
+.photo-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: nowrap;  /* PCでは折り返さない */
+}
+.photo-box {
+  width: 250px;         /* 固定サイズ */
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}

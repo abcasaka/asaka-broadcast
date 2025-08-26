@@ -1,74 +1,75 @@
 :root{
-  --bg: #0b0d10;
-  --bg-alt: #12151a;
-  --text: #e9eef5;
-  --muted: #98a2b3;
-  --primary: #3b82f6;
-  --border: #1f2430;
-  --card: #0f1319;
+  --bg:#0b0d10;
+  --bg-alt:#12151a;
+  --text:#e9eef5;
+  --muted:#98a2b3;
+  --primary:#3b82f6;
+  --border:#1f2430;
+  --card:#0f1319;
 }
 
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
+/* 基本 */
+*{ box-sizing:border-box }
+html,body{ margin:0; padding:0 }
 body{
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;
   color:var(--text);
-  background:linear-gradient(180deg,#0b0d10, #0e1420 60%, #0b0d10);
+  background:linear-gradient(180deg,#0b0d10,#0e1420 60%,#0b0d10);
   line-height:1.7;
+  overflow-x:hidden; /* 横スクロール封じ */
 }
+img,video,canvas,iframe{ max-width:100%; height:auto; display:block }
 
-.container{width:min(1100px, 92%); margin-inline:auto}
-.section{padding:72px 0}
-.section.alt{background:var(--bg-alt)}
+.container{ width:min(1100px,92%); margin-inline:auto }
+.section{ padding:72px 0 }
+.section.alt{ background:var(--bg-alt) }
 
-h1,h2,h3{line-height:1.2; margin:0 0 .5em}
-h1{font-size:clamp(28px, 4vw, 42px)}
-h2{font-size:clamp(22px, 3vw, 30px)}
-h3{font-size:clamp(18px, 2.5vw, 22px)}
-p{margin:0 0 1em}
-.muted{color:var(--muted)}
-.small{font-size:.9rem}
+h1,h2,h3{ line-height:1.2; margin:0 0 .5em }
+h1{ font-size:clamp(28px,4vw,42px) }
+h2{ font-size:clamp(22px,3vw,30px) }
+h3{ font-size:clamp(18px,2.5vw,22px) }
+p{ margin:0 0 1em }
+.muted{ color:var(--muted) }
+.small{ font-size:.9rem }
 
-a{color:inherit;text-decoration:none}
-.text-link{color:var(--primary)}
+a{ color:inherit; text-decoration:none }
+.text-link{ color:var(--primary) }
 
 .btn{
   display:inline-block; padding:12px 18px; border-radius:999px;
-  border:1px solid var(--border); transition:.2s transform ease;
+  border:1px solid var(--border); transition:.12s transform ease,.12s box-shadow ease;
   font-weight:600;
 }
-.btn:hover{transform:translateY(-1px)}
-.btn.primary{background:var(--primary); color:#fff; border-color:transparent}
-.btn.ghost{background:transparent}
+.btn:hover{ transform:translateY(-1px) }
+.btn:active{ transform:translateY(0) scale(.98) }
 
+/* ヘッダー */
 .site-header{
   position:sticky; top:0; z-index:10; backdrop-filter:saturate(150%) blur(6px);
   background:rgba(11,13,16,.6); border-bottom:1px solid var(--border);
 }
-.header-inner{
-  display:flex; align-items:center; justify-content:space-between; height:64px;
-}
+.header-inner{ display:flex; align-items:center; justify-content:space-between; height:64px }
 
-/* ヘッダーロゴ */
-.brand{display:inline-flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.02em}
-.brand-logo{display:block; height:32px; width:auto; object-fit:contain;}
+.brand{ display:inline-flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.02em }
+.brand-logo{ display:block; height:32px; width:auto; object-fit:contain }
 
-.nav{display:flex; gap:16px}
-.nav a{padding:8px 10px; border-radius:8px}
-.nav a:hover{background:rgba(255,255,255,.06)}
+.nav{ display:flex; gap:16px }
+.nav a{ padding:8px 10px; border-radius:8px }
+.nav a:hover{ background:rgba(255,255,255,.06) }
 
-.nav-toggle{display:none; background:none; border:none; cursor:pointer}
-.nav-toggle .bar{display:block; width:24px; height:2px; background:#fff; margin:5px 0}
+.nav-toggle{ display:none; background:none; border:none; cursor:pointer }
+.nav-toggle .bar{ display:block; width:24px; height:2px; background:#fff; margin:5px 0 }
 
-@media (max-width: 800px){
-  .nav-toggle{display:block}
+@media (max-width:800px){
+  .nav-toggle{ display:block }
   .nav{
     position:fixed; inset:64px 0 auto 0; display:none; flex-direction:column;
     background:rgba(11,13,16,.95); padding:12px; border-bottom:1px solid var(--border);
   }
-  .nav.open{display:flex}
+  .nav.open{ display:flex }
 }
 
+/* ヒーロー */
 .hero{
   padding:96px 0 64px;
   background:
@@ -76,357 +77,237 @@ a{color:inherit;text-decoration:none}
     radial-gradient(1000px 400px at 90% -10%, rgba(16,185,129,.18), transparent 60%);
   text-align:center;
 }
-.hero p{color:var(--muted)}
-.cta-row{margin-top:20px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+.hero p{ color:var(--muted) }
+.cta-row{ margin-top:20px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap }
 
-/* ヒーロー画像：角丸＋横余白を少し広く */
-.hero-logo {
-  border-radius: 12px;
-  max-width: 320px;   /* 横幅を調整（例：320pxまで） */
-  height: auto;       /* 縦横比を保つ */
-  object-fit: cover;  /* 中央を切り抜き */
+/* ヒーローのメイン画像（角丸・比率維持） */
+.hero-logo{
+  border-radius:12px;
+  max-width:320px;
+  height:auto;
+  object-fit:cover;
 }
 
-/* レイアウト */
+/* ヒーロー左右の4枚＋中央ロゴ */
+/* 共通サイズ（PCで過大化しない） */
+.hero-thumb,.hero-main{
+  --heroSize:clamp(140px,16vw,200px);
+  width:var(--heroSize);
+  height:var(--heroSize);
+  border-radius:12px;
+  object-fit:cover;
+  display:block;
+}
+
+/* PC：必ず1行（左2・中央ロゴ・右2） */
+@media (min-width:701px){
+  .hero-strip{
+    display:grid;
+    grid-template-columns:repeat(5, var(--heroSize));
+    gap:16px;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:14px;
+  }
+}
+
+/* スマホ：ロゴ1段目、4枚は2×2グリッド */
+@media (max-width:700px){
+  .hero-strip{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .hero-main{
+    grid-column:1 / -1;           /* 1段目で中央 */
+    justify-self:center;
+    --heroSize:clamp(160px,56vw,220px);
+  }
+  .hero-thumb{
+    width:100%; height:auto; aspect-ratio:1 / 1;
+  }
+}
+
+/* サムネの出現アニメ（左→右に順々） */
+.hero-thumb{
+  opacity:0; transform:translateX(-10px);
+  transition:opacity .55s ease, transform .55s cubic-bezier(.2,.6,.2,1);
+}
+.hero-thumb.is-in{ opacity:1; transform:translateX(0) }
+
+/* レイアウト（about） */
 .grid-2{
   display:grid; gap:28px;
-  grid-template-columns:1.2fr .8fr;
+  grid-template-columns:1.2fr .8fr;  /* テキスト：画像 */
+  align-items:start;
 }
-@media (max-width: 900px){
-  .grid-2{ grid-template-columns:1fr; } /* 900px未満は縦並び */
+@media (max-width:900px){ .grid-2{ grid-template-columns:1fr } }
+
+/* about の写真2枚（PC=横2枚, スマホも崩れない） */
+.photo-row{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 250px));
+  gap:16px;
+  justify-content:center;   /* 中央寄せで溢れにくい */
+}
+@media (max-width:520px){
+  .photo-row{ grid-template-columns:1fr 1fr; gap:12px }
+}
+.photo-box{
+  width:100%;
+  aspect-ratio:1 / 1;
+  border-radius:12px;
+  background-size:cover;
+  background-position:center;
 }
 
-.check{padding-left:1.1em}
-.check li{margin:.3em 0; list-style: "✔︎  "}
+/* チェックリスト */
+.check{ padding-left:1.1em }
+.check li{ margin:.3em 0; list-style:"✔︎  " }
 
+/* カード＆ブログ */
 .card{
   background:var(--card); border:1px solid var(--border);
   border-radius:18px; overflow:hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,.25);
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+  transition:.18s transform ease, .18s box-shadow ease;
 }
+.card:hover{ transform:translateY(-2px) }
 
-/* 写真2枚の横並び */
-.photo-row{display:flex; gap:20px; justify-content:center}
-.photo-row .photo-box{
-  width: 250px;
-  aspect-ratio: 1 / 1;
-  border-radius: 12px;
-  background-size: cover;
-  background-position: center;
-  flex-shrink: 0;
+.cards{
+  display:grid; gap:24px;
+  grid-template-columns:repeat(3, minmax(0, 1fr)); /* 幅に合わせて縮む */
 }
-
-.cards{display:grid; gap:24px; grid-template-columns: repeat(3, 1fr);}
-@media (max-width: 900px){ .cards{grid-template-columns: 1fr 1fr} }
-@media (max-width: 600px){ .cards{grid-template-columns: 1fr} }
+@media (max-width:900px){ .cards{ grid-template-columns:1fr 1fr } }
+@media (max-width:600px){ .cards{ grid-template-columns:1fr } }
 
 .card-thumb{
-  aspect-ratio: 16/9; background:
-    linear-gradient(25deg, rgba(59,130,246,.25), rgba(16,185,129,.2));
+  aspect-ratio:16/9;
+  background:linear-gradient(25deg, rgba(59,130,246,.25), rgba(16,185,129,.2));
   border-bottom:1px solid var(--border);
 }
-.card-body{padding:16px 16px 18px}
-.card-title{margin:.1em 0}
+.card-body{ padding:16px 16px 18px }
+.card-title{ margin:.1em 0 }
 
-.contact-form{display:grid; gap:14px; max-width:640px;}
-.contact-form input, .contact-form textarea{
+/* お問い合わせフォーム */
+.contact-form{ display:grid; gap:14px; max-width:640px }
+.contact-form input,.contact-form textarea{
   width:100%; padding:12px 14px; border-radius:12px;
   border:1px solid var(--border); background:#0a0e14; color:var(--text);
 }
-.contact-form button{justify-self:start}
+.contact-form button{ justify-self:start }
 
-.site-footer{padding:28px 0; border-top:1px solid var(--border); background:rgba(0,0,0,.2);}
-.footer-inner{display:flex; align-items:center; justify-content:space-between; gap:12px}
-.sns{display:flex; gap:12px; flex-wrap:wrap}
-.sns-link{padding:6px 10px; border:1px solid var(--border); border-radius:999px}
+/* フッター */
+.site-footer{ padding:28px 0; border-top:1px solid var(--border); background:rgba(0,0,0,.2) }
+.footer-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px }
+.sns{ display:flex; gap:12px; flex-wrap:wrap }
+.sns-link{ padding:6px 10px; border:1px solid var(--border); border-radius:999px }
 
 /* ===== 出現モーション ===== */
-
-/* 通常の縦フェード */
 .reveal{
   opacity:0; transform:translateY(12px);
-  transition: opacity .6s ease, transform .6s cubic-bezier(.2,.6,.2,1);
-  transition-delay: var(--d, 0ms); will-change: opacity, transform;
+  transition:opacity .6s ease, transform .6s cubic-bezier(.2,.6,.2,1);
+  transition-delay:var(--d,0ms); will-change:opacity,transform;
 }
-.reveal.visible{opacity:1; transform:translateY(0)}
+.reveal.visible{ opacity:1; transform:translateY(0) }
 
-/* 横スライド（about=左, blog=右） */
-.reveal-left, .reveal-right{
+.reveal-left,.reveal-right{
   opacity:0;
-  transition: opacity .8s ease, transform .8s cubic-bezier(.2,.6,.2,1);
-  transition-delay: var(--d, 0ms); will-change: opacity, transform;
+  transition:opacity .8s ease, transform .8s cubic-bezier(.2,.6,.2,1);
+  transition-delay:var(--d,0ms); will-change:opacity,transform;
 }
-.reveal-left { transform: translateX(-18px); }
-.reveal-right{ transform: translateX( 18px); }
-.reveal-left.visible, .reveal-right.visible{ opacity:1; transform: translateX(0); }
+.reveal-left{ transform:translateX(-18px) }
+.reveal-right{ transform:translateX(18px) }
+.reveal-left.visible,.reveal-right.visible{ opacity:1; transform:translateX(0) }
 
-/* --- フェイルセーフ付きの早出し（ヒーロー） --- */
-/* JSが動かない時は常に見える（=消えない） */
-.reveal-now { opacity: 1; transform: none; }
-/* JS起動時だけアニメON（html.js が付与される） */
+/* フェイルセーフ付きの早出し（ヒーロー） */
+.reveal-now{ opacity:1; transform:none }      /* JS無しでも見える */
 html.js .reveal-now{
   opacity:0; transform:translateY(8px);
-  transition: opacity .45s ease, transform .45s cubic-bezier(.2,.6,.2,1);
+  transition:opacity .45s ease, transform .45s cubic-bezier(.2,.6,.2,1);
 }
-html.js .reveal-now.visible{ opacity:1; transform:none; }
+html.js .reveal-now.visible{ opacity:1; transform:none }
+.fast.reveal,.fast.reveal-left,.fast.reveal-right,.fast.reveal-now{ transition-duration:.45s !important }
 
-/* 短縮アニメ指定 */
-.fast.reveal, .fast.reveal-left, .fast.reveal-right, .fast.reveal-now {
-  transition-duration: .45s !important;
-}
-
-/* FAQ 見やすく */
-details.faq{ margin:16px 0 20px; }
+/* FAQ強調 */
+details.faq{ margin:16px 0 20px }
 .faq summary{
-  cursor:pointer;
-  font-size: clamp(18px, 2.4vw, 22px);
-  font-weight: 700;
-  padding: 14px 16px;
-  border-radius: 10px;
-  line-height: 1.4;
-  transition: background .2s, color .2s;
+  cursor:pointer; font-size:clamp(18px,2.4vw,22px); font-weight:700;
+  padding:14px 16px; border-radius:10px; line-height:1.4;
+  transition:background .2s, color .2s;
 }
-.faq summary:hover{ background: rgba(59,130,246,.15); color: var(--primary); }
-.faq[open] summary{ background: rgba(59,130,246,.25); color: var(--primary); }
-.faq summary::-webkit-details-marker{ display:none; }
-.faq summary::after{ content:"▶"; float:right; transition: transform .2s ease; font-size:18px; }
-.faq[open] summary::after{ transform: rotate(90deg); }
+.faq summary:hover{ background:rgba(59,130,246,.15); color:var(--primary) }
+.faq[open] summary{ background:rgba(59,130,246,.25); color:var(--primary) }
+.faq summary::-webkit-details-marker{ display:none }
+.faq summary::after{ content:"▶"; float:right; transition:transform .2s ease; font-size:18px }
+.faq[open] summary::after{ transform:rotate(90deg) }
 
 /* モーダル */
-.post-dialog{ width:min(800px, 92%); border:none; border-radius:16px; padding:0; background:var(--card); color:var(--text); }
-.post-dialog::backdrop { background: rgba(0,0,0,.6); }
-.post-article { padding: 20px 20px 24px; position: relative; }
-.post-close { position:absolute; top:8px; right:10px; border:0; background:transparent; font-size:24px; color:var(--text); cursor:pointer; line-height:1; }
-#postImage { width:100%; height:auto; border-radius:12px; margin-bottom:12px; }
-#postBody p { margin:0 0 1em; }
+.post-dialog{ width:min(800px,92%); border:none; border-radius:16px; padding:0; background:var(--card); color:var(--text) }
+.post-dialog::backdrop{ background:rgba(0,0,0,.6) }
+.post-article{ padding:20px 20px 24px; position:relative }
+.post-close{ position:absolute; top:8px; right:10px; border:0; background:transparent; font-size:24px; color:var(--text); cursor:pointer; line-height:1 }
+#postImage{ width:100%; height:auto; border-radius:12px; margin-bottom:12px }
+#postBody p{ margin:0 0 1em }
 
-/* 軽いホバー感 */
-.btn{ transition: transform .12s ease, box-shadow .12s ease; }
-.btn:hover{ transform: translateY(-1px); }
-.btn:active{ transform: translateY(0) scale(.98); }
-.card{ transition: transform .18s ease, box-shadow .18s ease; }
-.card:hover{ transform: translateY(-2px); }
-
-/* 動きを好まない設定では無効化 */
-@media (prefers-reduced-motion: reduce){
-  * { animation: none !important; transition: none !important; }
-  .reveal, .reveal-left, .reveal-right, .reveal-now { opacity: 1 !important; transform: none !important; }
+/* アニメ嫌い設定 */
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important }
+  .reveal,.reveal-left,.reveal-right,.reveal-now{ opacity:1 !important; transform:none !important }
 }
-/* ===== Hero strip（ヒーロー左右の4枚） ===== */
-.hero-strip{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  flex-wrap:nowrap;
-  margin-bottom:18px; /* 画像帯と見出しの余白 */
-}
+/* ===== FIX: Hero strip layout 強制指定（競合の上から確実に勝つ） ===== */
 
-/* サイズはヒーローと同じ正方形・角丸 */
-.hero-thumb,
-.hero-main{
-  --heroSize: clamp(140px, 22vw, 220px);
-  width: var(--heroSize);
-  height: var(--heroSize);
-  border-radius: 12px;
-  object-fit: cover;
-  display: block;
+/* PC：5枚を横一列（左2・中央ロゴ・右2） */
+@media (min-width: 901px){
+  .hero-strip{
+    display: grid !important;              /* ここを固定 */
+    grid-auto-flow: column;                /* 横方向に並べる */
+    grid-template-columns: repeat(5, minmax(120px, var(--heroSize)));
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .hero-thumb,
+  .hero-main{
+    --heroSize: clamp(140px, 14vw, 200px); /* PCで大きくなり過ぎない */
+    width: var(--heroSize);
+    height: var(--heroSize);
+    border-radius: 12px;
+    object-fit: cover;
+  }
 }
 
-/* サムネ初期状態（非表示）→可視化でスライド */
-.hero-thumb{
-  opacity: 0;
-  transform: translateX(-10px);
-  transition:
-    opacity .55s ease,
-    transform .55s cubic-bezier(.2,.6,.2,1);
-}
-
-/* 右側に出る2枚は少し右から */
-.hero-thumb:nth-of-type(n+4){ /* hero-strip内で4番目以降 = 右側2枚 */
-  transform: translateX(10px);
-}
-
-/* JSから .is-in を付与して可視化 */
-.hero-thumb.is-in{
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* スマホでは帯を簡略化（左右のサムネを隠す） */
+/* スマホ：ロゴ1段目で全幅・下に2×2の正方形サムネ */
 @media (max-width: 700px){
   .hero-strip{
-    gap:10px;
-  }
-  .hero-thumb{ display:none; }
-}
-/* ====== 共通: 横スクロール防止 ====== */
-body {
-  overflow-x: hidden;  /* 画面からはみ出す横スクロールを禁止 */
-}
-
-/* ====== aboutセクションのグリッド調整 ====== */
-.grid-2 {
-  display: grid;
-  gap: 28px;
-  grid-template-columns: 1.2fr .8fr;
-}
-@media (max-width: 900px) {
-  .grid-2 { grid-template-columns: 1fr; }  /* スマホは1カラム */
-}
-
-/* ====== 画像サイズ調整（about） ====== */
-.photo-box {
-  max-width: 100%;     /* はみ出さない */
-  width: 100%;         /* 親幅に収める */
-  aspect-ratio: 1 / 1; /* 正方形を維持 */
-  border-radius: 12px;
-  background-size: cover;
-  background-position: center;
-}
-
-/* ====== blogカードのレスポンシブ調整 ====== */
-.cards {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(3, 1fr);
-}
-@media (max-width: 900px) {
-  .cards { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 600px) {
-  .cards { grid-template-columns: 1fr; }   /* スマホは1列 */
-}
-
-/* ====== hero-stripのサムネ4枚修正 ====== */
-.hero-strip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;   /* ←折り返しを許可（はみ出し防止） */
-  margin-bottom: 18px;
-}
-.hero-thumb,
-.hero-main {
-  --heroSize: clamp(140px, 22vw, 220px);
-  width: var(--heroSize);
-  height: var(--heroSize);
-  border-radius: 12px;
-  object-fit: cover;
-  display: block;
-}
-.hero-thumb {
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: opacity .55s ease, transform .55s cubic-bezier(.2,.6,.2,1);
-}
-.hero-thumb.is-in {
-  opacity: 1;
-  transform: translateX(0);
-}
-/* スマホでは2×2グリッドに並べる */
-@media (max-width: 700px){
-  .hero-strip {
-    display: grid;
+    display: grid !important;              /* モバイルは2列グリッド */
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
-  .hero-main {
-    grid-column: span 2; /* ロゴは1行で中央 */
-    justify-self: center;
-  }
-  .hero-thumb {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1 / 1;
-  }
-}
-/* ===== ヒーロー帯（PCは1列固定 / スマホは並び替え） ===== */
-
-/* 共通サイズ（少し小さめに調整） */
-.hero-thumb,
-.hero-main{
-  --heroSize: clamp(140px, 16vw, 200px);  /* ← PCで大きくなりすぎない */
-  width: var(--heroSize);
-  height: var(--heroSize);
-  border-radius: 12px;
-  object-fit: cover;
-  display: block;
-}
-
-/* PC：1列固定（左2・中央ロゴ・右2） */
-.hero-strip{
-  display: grid;
-  grid-template-columns: repeat(5, var(--heroSize));
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 14px;   /* 下の見出しとの余白 */
-}
-
-/* サムネの出現アニメ（左→右に順に） */
-.hero-thumb{
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: opacity .55s ease, transform .55s cubic-bezier(.2,.6,.2,1);
-}
-.hero-thumb.is-in{
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* スマホ：ロゴ（1段目中央）、その下に2×2の正方形グリッド */
-@media (max-width: 700px){
-  .hero-strip{
-    grid-template-columns: 1fr 1fr; /* 2列 */
-    gap: 10px;
-  }
   .hero-main{
-    grid-column: 1 / -1;      /* 1段目で2列ぶち抜き＝中央 */
+    grid-column: 1 / -1;                   /* 1段目で中央にドン */
     justify-self: center;
     --heroSize: clamp(160px, 56vw, 220px);
+    width: var(--heroSize);
+    height: var(--heroSize);
   }
   .hero-thumb{
     width: 100%;
     height: auto;
-    aspect-ratio: 1 / 1;      /* 正方形を維持 */
-    /* スマホでは全て左から出す方向でOK（視覚的差が出づらいので） */
-    transform: translateX(-10px);
-  }
-}
-
-/* 追加で横スクロール抑止（PC/スマホ共通で安全策） */
-body{ overflow-x: hidden; }
-/* --- grid-2 をスマホでは1列に --- */
-@media (max-width: 900px){
-  .grid-2 {
-    grid-template-columns: 1fr;   /* 1カラムに */
-    gap: 20px;
-  }
-  .photo-row {
-    justify-content: center;      /* 画像を中央揃え */
-    flex-wrap: wrap;
-  }
-  .photo-box {
-    width: 100%;                  /* 横幅いっぱいに */
-    max-width: 320px;             /* ただし大きすぎないよう制限 */
     aspect-ratio: 1 / 1;
-    margin: 0 auto;               /* 中央寄せ */
   }
 }
-
-/* PCでは今まで通り横並び */
-.photo-row {
-  display: flex;
-  gap: 16px;
-  flex-wrap: nowrap;  /* PCでは折り返さない */
+/* Googleフォーム埋め込みのデフォルト高さ（JSでさらに上書き） */
+.gform-embed{
+  display:block;
+  width:100%;
+  height: 1200px;       /* PCの最低高さ */
+  border:0;
 }
-.photo-box {
-  width: 250px;         /* 固定サイズ */
-  aspect-ratio: 1 / 1;
-  border-radius: 12px;
-  background-size: cover;
-  background-position: center;
-  flex-shrink: 0;
+
+/* スマホは少し高めに（フォーム項目が縦に増えるため） */
+@media (max-width: 700px){
+  .gform-embed{ height: 1600px; }
 }

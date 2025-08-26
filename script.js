@@ -1,4 +1,4 @@
-// ===== JS起動フラグ（フェイルセーフ：これが走れば .reveal-now をアニメ可） =====
+// ===== JS起動フラグ（.reveal-now をアニメ可に） =====
 document.documentElement.classList.add('js');
 
 // ===== 年表示 =====
@@ -51,7 +51,7 @@ function renderPosts(payload) {
     `;
   }).join('');
 
-  // 追加された .reveal 等を観測（未準備なら少し待って再試行）
+  // 追加された要素を監視に登録
   const armReveals = () => {
     if (window.__observeReveals) {
       window.__observeReveals(
@@ -150,15 +150,31 @@ function displayDate(dateField) {
   } catch { return String(dateField || ''); }
 }
 
-// ===== 早出し：ヒーローは DOM 構築直後に可視化（JS正常時） =====
+/* ===== ヒーロー：即時表示＋左右4枚の順次表示 ===== */
+function showHeroSideThumbs(){
+  const thumbs = document.querySelectorAll('.hero-strip .hero-thumb');
+  if (!thumbs.length) return;
+
+  const isSmall = window.matchMedia('(max-width: 700px)').matches;
+  const baseDelay = isSmall ? 280 : 350; // ヒーロー現れた後の待機
+  const step      = isSmall ? 140 : 180; // 1枚ずつの遅延差
+
+  thumbs.forEach((el, i) => {
+    setTimeout(() => el.classList.add('is-in'), baseDelay + i*step);
+  });
+}
+
+// ヒーローの .reveal-now を可視化 → 4枚を順次表示
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.reveal-now').forEach(el => {
     requestAnimationFrame(() => el.classList.add('visible'));
   });
+  setTimeout(showHeroSideThumbs, 500);
 });
 
-// ===== 出現アニメ：画像読込後に起動（ズレ＆早発火対策） =====
+/* ===== 出現アニメ：画像読込後に起動（早発火防止） ===== */
 (function(){
+  // リロードで勝手に途中へスクロールされるのを防ぐ
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   const boot = () => {
@@ -173,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         io = new IntersectionObserver((entries) => {
           entries.forEach(en => {
             const el = en.target;
-            const need = parseFloat(el.getAttribute('data-th')) || 0.5; // 既定0.5（contactは0.3）
+            const need = parseFloat(el.getAttribute('data-th')) || 0.5; // 既定0.5（contactは0.3など）
             if (en.isIntersecting && en.intersectionRatio >= need) {
               el.classList.add('visible');
               io.unobserve(el);
@@ -187,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       nodes.forEach(el => io.observe(el));
     };
 
-    // 初期ターゲット
+    // 初期ターゲットを監視
     observe(document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-now'));
 
     // 後から追加される要素用に公開
@@ -197,48 +213,34 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!location.hash) window.scrollTo(0, 0);
   };
 
-  // 画像も含めて読み込み完了後に起動
+  // 画像も含め読み込み完了後に起動
   window.addEventListener('load', boot);
 })();
-/* ===== 追記：ヒーロー左右4枚の順次表示 ===== */
-function showHeroSideThumbs(){
-  const thumbs = document.querySelectorAll('.hero-strip .hero-thumb');
-  if (!thumbs.length) return;
+/* ===== Googleフォームの高さを画面に合わせて最適化 ===== */
+(function(){
+  const sel = '.gform-embed';
 
-  // 左2枚 → 右2枚の並びのまま、左から右へ順番に点灯
-  const baseDelay = 350;   // ヒーロー出現直後の待機
-  const step      = 180;   // 1枚ずつの遅延差
+  function fitGForm(){
+    const f = document.querySelector(sel);
+    if(!f) return;
+    const vh = Math.max(window.innerHeight || 0, 700);
+    const isSmall = window.matchMedia('(max-width: 700px)').matches;
 
-  thumbs.forEach((el, i) => {
-    setTimeout(() => el.classList.add('is-in'), baseDelay + i*step);
-  });
-}
+    // 画面に対する倍率で高さを決め、最低値を確保
+    const target = isSmall
+      ? Math.max(1600, Math.round(vh * 1.6))   // スマホ
+      : Math.max(1100, Math.round(vh * 1.2));  // PC/タブレット
 
-// 既存：ヒーロー即時化（reveal-now を visible に）
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.reveal-now').forEach(el => {
-    requestAnimationFrame(() => el.classList.add('visible'));
-  });
+    f.style.height = target + 'px';
+  }
 
-  // ヒーローが表示された少し後に実行
-  setTimeout(showHeroSideThumbs, 500);
-});
-function showHeroSideThumbs(){
-  const thumbs = document.querySelectorAll('.hero-strip .hero-thumb');
-  if (!thumbs.length) return;
+  // 軽いスロットル
+  let t = null;
+  function onResize(){
+    if(t) cancelAnimationFrame(t);
+    t = requestAnimationFrame(fitGForm);
+  }
 
-  const isSmall = window.matchMedia('(max-width: 700px)').matches;
-  const baseDelay = isSmall ? 280 : 350;
-  const step      = isSmall ? 140 : 180;
-
-  thumbs.forEach((el, i) => {
-    setTimeout(() => el.classList.add('is-in'), baseDelay + i*step);
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.reveal-now').forEach(el => {
-    requestAnimationFrame(() => el.classList.add('visible'));
-  });
-  setTimeout(showHeroSideThumbs, 500);
-});
+  window.addEventListener('load', fitGForm);
+  window.addEventListener('resize', onResize);
+})();

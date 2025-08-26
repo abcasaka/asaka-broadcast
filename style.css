@@ -212,3 +212,51 @@ details.faq{ margin:16px 0 20px; }
   * { animation: none !important; transition: none !important; }
   .reveal, .reveal-left, .reveal-right, .reveal-now { opacity: 1 !important; transform: none !important; }
 }
+/* ===== Hero strip（ヒーロー左右の4枚） ===== */
+.hero-strip{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:nowrap;
+  margin-bottom:18px; /* 画像帯と見出しの余白 */
+}
+
+/* サイズはヒーローと同じ正方形・角丸 */
+.hero-thumb,
+.hero-main{
+  --heroSize: clamp(140px, 22vw, 220px);
+  width: var(--heroSize);
+  height: var(--heroSize);
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
+
+/* サムネ初期状態（非表示）→可視化でスライド */
+.hero-thumb{
+  opacity: 0;
+  transform: translateX(-10px);
+  transition:
+    opacity .55s ease,
+    transform .55s cubic-bezier(.2,.6,.2,1);
+}
+
+/* 右側に出る2枚は少し右から */
+.hero-thumb:nth-of-type(n+4){ /* hero-strip内で4番目以降 = 右側2枚 */
+  transform: translateX(10px);
+}
+
+/* JSから .is-in を付与して可視化 */
+.hero-thumb.is-in{
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* スマホでは帯を簡略化（左右のサムネを隠す） */
+@media (max-width: 700px){
+  .hero-strip{
+    gap:10px;
+  }
+  .hero-thumb{ display:none; }
+}

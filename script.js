@@ -200,3 +200,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // 画像も含めて読み込み完了後に起動
   window.addEventListener('load', boot);
 })();
+/* ===== 追記：ヒーロー左右4枚の順次表示 ===== */
+function showHeroSideThumbs(){
+  const thumbs = document.querySelectorAll('.hero-strip .hero-thumb');
+  if (!thumbs.length) return;
+
+  // 左2枚 → 右2枚の並びのまま、左から右へ順番に点灯
+  const baseDelay = 350;   // ヒーロー出現直後の待機
+  const step      = 180;   // 1枚ずつの遅延差
+
+  thumbs.forEach((el, i) => {
+    setTimeout(() => el.classList.add('is-in'), baseDelay + i*step);
+  });
+}
+
+// 既存：ヒーロー即時化（reveal-now を visible に）
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.reveal-now').forEach(el => {
+    requestAnimationFrame(() => el.classList.add('visible'));
+  });
+
+  // ヒーローが表示された少し後に実行
+  setTimeout(showHeroSideThumbs, 500);
+});

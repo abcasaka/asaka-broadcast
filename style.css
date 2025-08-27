@@ -271,19 +271,16 @@ details.faq{ margin:16px 0 20px }
   .gform-embed{ height: 1600px; }
 }
 /* ========== ヒーロー帯：PCは横一列、スマホは2x2の正方形 ========== */
-
-/* 共通サイズ（PC）*/
+/* === ヒーロー帯：PCは横1行、左右の間隔をロゴと等しく === */
 .hero-strip{
-  /* 横幅が広くなりすぎないよう中央に固定幅で並べる */
   --heroSize: clamp(140px, 16vw, 200px);
-  display: grid;
-  grid-template-columns: repeat(5, var(--heroSize)); /* 左2 + 中央ロゴ + 右2 */
+  display: flex;
+  grid-template-columns: repeat(5, var(--heroSize)); /* 左2 + ロゴ + 右2 */
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 14px;
+  gap: 16px;           /* ← これで左右の間隔をロゴと統一 */
+  margin-bottom: 14px; /* 見出しとの余白 */
 }
-
 .hero-thumb,
 .hero-main{
   width: var(--heroSize);
@@ -292,78 +289,56 @@ details.faq{ margin:16px 0 20px }
   object-fit: cover;
   display: block;
 }
-
 /* 出現アニメ（左→右） */
 .hero-thumb{
   opacity: 0;
   transform: translateX(-10px);
   transition: opacity .55s ease, transform .55s cubic-bezier(.2,.6,.2,1);
 }
-.hero-thumb.is-in{
-  opacity: 1;
-  transform: translateX(0);
-}
+.hero-thumb.is-in{ opacity: 1; transform: translateX(0) }
 
-/* ========== モバイル：2列グリッド（正方形固定） ========== */
+/* === スマホ：ロゴを横幅いっぱい、その上下に2×2で4枚 === */
 @media (max-width: 700px){
   .hero-strip{
-    grid-template-columns: repeat(2, minmax(0,1fr)); /* 2列 */
+    grid-template-columns: 1fr 1fr; /* 2列 */
     gap: 10px;
-    width: min(560px, 92%);
+    width: min(560px, 92%);  /* 画面に収まる最大幅 */
     margin-inline: auto;
   }
-  /* ロゴは1段目中央（2列ぶち抜き） */
+  /* ロゴは1段目ぶち抜きで「横幅いっぱい」かつ正方形 */
   .hero-main{
     grid-column: 1 / -1;
     justify-self: center;
-    width: clamp(160px, 56vw, 220px) !important;  /* ロゴは少し大きめ */
+    width: 100% !important;
+    max-width: 92vw;         /* はみ出し防止 */
     height: auto !important;
     aspect-ratio: 1 / 1 !important;
   }
-  /* サムネ4枚は “必ず正方形” を強制 */
+  /* 4枚は必ず正方形 */
   .hero-thumb{
     width: 100% !important;
     height: auto !important;
     aspect-ratio: 1 / 1 !important;
-    border-radius: 12px;
-    object-fit: cover;
   }
 }
-/* ===== お問い合わせ：プレースホルダー ===== */
-.form-loader{
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  background:rgba(0,0,0,.2);
-  color:#ccc; font-size:1rem;
+
+/* === お問い合わせ iframe：デフォルト高 + 端末別最適化 === */
+.gform-embed{
+  display:block;
+  width:100%;
+  height: 1200px;        /* PC向け基準（JSが上書き） */
+  border:0;
 }
-
-/* iframe を包むカードを相対配置に（loader を重ねるため） */
-.contact-card{
-  position: relative;
-  padding: 0;
-  overflow: hidden;       /* iOSでのはみ出し防止 */
-}
-
-/* ===== 端末に応じた iframe 高さ最適化 ===== */
-/* デフォルトはデスクトップ向けにやや高め */
-#contact iframe{ height: 900px; }
-
-/* タブレット以下は画面高に合わせる（下の空白を抑制） */
 @media (max-width: 1024px){
-  #contact iframe{ height: min(900px, 85vh); }
+  /* タブレット以下は画面高に合わせて下の空白を減らす */
+  .gform-embed{ height: min(900px, 85vh); }
 }
-
-/* スマホではもう少しコンパクトにして下の余白を削減 */
 @media (max-width: 700px){
-  #contact iframe{ height: min(820px, 78vh); }
+  /* スマホはさらにコンパクトに（空白削減） */
+  .gform-embed{ height: min(820px, 78vh); }
 }
-
-/* 最終セクションの下パディングを軽めに（空白対策） */
+/* contact セクションは下の余白を詰め気味に */
 .section:last-of-type{ padding-bottom: 32px; }
-
-/* お問い合わせセクションだけ少し詰める */
 #contact.section{ padding-bottom: 24px; }
-
-/* カードの下に余白を作らない（空白を増やさない） */
 #contact .card{ margin-bottom: 0; }
 

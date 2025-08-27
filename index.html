@@ -3,13 +3,91 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>安積高校 放送委員会 | 公式サイト</title>
-  <meta name="description" content="安積高校放送委員会の活動紹介・FAQ・最新情報・お問い合わせ。" />
-  <meta property="og:title" content="安積高校 放送委員会" />
-  <meta property="og:description" content="活動紹介・FAQ・お問い合わせはこちら。" />
+  <meta name="description" content="安積高校放送委員会の公式サイト。活動紹介、FAQ、最新情報、お問い合わせはこちら。朗読・アナウンス・ドラマ・ドキュメントの各部門で活動中。" />
+
+  <!-- 検索エンジン向け -->
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://abcasaka.github.io/asaka-broadcast/" />
+
+  <!-- Google Search Console 認証 -->
+  <meta name="google-site-verification" content="7bbDkwO8E_TecZDrjWWIgdA8tUZfSeQN5DabZaakU8A" />
+
+  <!-- OGP / SNS -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="安積高校 放送委員会" />
+  <meta property="og:title" content="安積高校 放送委員会 | 公式サイト" />
+  <meta property="og:description" content="活動紹介、FAQ、最新情報、お問い合わせはこちら。朗読・アナウンス・ドラマ・ドキュメントの各部門で活動中。" />
+  <meta property="og:url" content="https://abcasaka.github.io/asaka-broadcast/" />
+  <meta property="og:image" content="https://abcasaka.github.io/asaka-broadcast/img/hero.png" />
+  <meta property="og:locale" content="ja_JP" />
+
+  <!-- Twitterカード -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@abcasaka" />
+
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="./img/favicon.png">
+
   <link rel="stylesheet" href="./style.css" />
+
+  <!-- 構造化データ：Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "安積高校 放送委員会",
+    "url": "https://abcasaka.github.io/asaka-broadcast/",
+    "logo": "https://abcasaka.github.io/asaka-broadcast/img/favicon.png",
+    "sameAs": [
+      "https://x.com/abcasaka",
+      "https://www.instagram.com/asaka_broadcast"
+    ]
+  }
+  </script>
+
+  <!-- 構造化データ：WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "安積高校 放送委員会 公式サイト",
+    "url": "https://abcasaka.github.io/asaka-broadcast/",
+    "inLanguage": "ja",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.google.com/search?q=site:abcasaka.github.io/asaka-broadcast+{search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- 構造化データ：FAQ（例として2問だけ記載） -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"活動頻度と内容は？",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"昼の校内放送や行事の音響、文化祭の映像制作などの委員会活動と、朗読・アナウンス・ドラマ・ドキュメントなどのコンテスト挑戦を行っています。"
+        }
+      },
+      {
+        "@type":"Question",
+        "name":"全く経験がないのですが入部できますか？",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"全く問題ありません。基礎から学べます。"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -31,9 +109,11 @@
         <a href="#blog">ブログ</a>
         <a href="#contact">お問い合わせ</a>
         <a class="sns-icon" href="https://x.com/abcasaka" target="_blank" rel="noopener" aria-label="X 公式">
-        <img src="./img/x-logo.png" alt="" /></a>
+          <img src="./img/x-logo.png" alt="" />
+        </a>
         <a class="sns-icon" href="https://www.instagram.com/asaka_broadcast" target="_blank" rel="noopener" aria-label="Instagram 公式">
-        <img src="./img/instagram.png" alt="" /></a>
+          <img src="./img/instagram.png" alt="" />
+        </a>
       </nav>
     </div>
   </header>
@@ -41,23 +121,16 @@
   <!-- ヒーロー -->
   <section id="home" class="hero reveal-now fast">
     <div class="container">
-         <!-- ▶ 追加：ヒーローとサイド4枚を横一列に -->
-      <div class="hero-strip">
-        <!-- 左側2枚（順に出る） -->
+      <!-- 5枚帯：左2・中央ロゴ・右2 -->
+      <div class="hero-strip" aria-hidden="true">
         <img class="hero-thumb" alt="" src="./img/camera.jpg" width="220" height="220" loading="eager" decoding="async">
         <img class="hero-thumb" alt="" src="./img/hd169.jpg" width="220" height="220" loading="eager" decoding="async">
-
-        <!-- 中央：既存のヒーロー画像（そのまま） -->
-      <img class="hero-logo hero-main"
-           src="./img/hero.png"
-           alt="安積高校放送委員会ロゴ"
-           width="220" height="220" decoding="async" loading="eager" />
-            <!-- 右側2枚（順に出る） -->
-
+        <img class="hero-logo hero-main" src="./img/hero.png" alt="安積高校放送委員会ロゴ" width="220" height="220" decoding="async" loading="eager" />
         <img class="hero-thumb" alt="" src="./img/onair.jpg" width="220" height="220" loading="eager" decoding="async">
         <img class="hero-thumb" alt="" src="./img/roudoku-genkou.jpg" width="220" height="220" loading="eager" decoding="async">
-    </div>
-        <h1>安積高校放送委員会</h1>
+      </div>
+
+      <h1>安積高校放送委員会</h1>
       <p>安積高校放送委員会のホームページです</p>
       <div class="cta-row">
         <a class="btn primary" href="#contact">問い合わせ</a>
@@ -69,7 +142,6 @@
   <!-- about -->
   <section id="about" class="section reveal-left" style="--d:100ms">
     <div class="container grid-2">
-      <!-- 左カラム -->
       <div>
         <h2>放送委員会とは？</h2>
         <p>
@@ -84,7 +156,6 @@
         </ul>
       </div>
 
-      <!-- 右カラム -->
       <div class="photo-row">
         <div class="photo-box reveal" style="--d:0ms;  background-image:url('./img/rodoku.jpg');"></div>
         <div class="photo-box reveal" style="--d:80ms; background-image:url('./img/mic.jpg');"></div>
@@ -99,9 +170,9 @@
       <details class="faq">
         <summary>活動頻度と内容は？</summary>
         <p>●委員会として</p>
-<p>放送担当の生徒約２名が昼食持参で部室（放送室）に集合し、放送依頼の連絡を待ちつつ昼食を取ります。 電話or直接訪問で放送を入れるよう指令があったら、指令を文章に起こしてから全校放送を流します。 その他、各行事での音響設備の管理、体育祭、紫旗祭（文化祭）での放送担当、紫旗祭のエンディングムービー作成などを生徒会と上手に連携をとりつつ学校行事のお手伝いをしています。</p>
-<p>●部活動として</p>
-<p>人によりますが、平日の放課後が基本的な活動日です。アナウンス、朗読班は発声練習を原則毎日行います。また技術班や脚本担当、ドキュメント班は番組制作の会議や収録、撮影を主な活動​としています。なお班は掛け持ちをしている場合がほとんどです。</p>
+        <p>放送担当の生徒約２名が昼食持参で部室（放送室）に集合し、放送依頼の連絡を待ちつつ昼食を取ります。電話or直接訪問で放送を入れるよう指令があったら、指令を文章に起こしてから全校放送を流します。その他、各行事での音響設備の管理、体育祭、紫旗祭（文化祭）での放送担当、紫旗祭のエンディングムービー作成などを生徒会と上手に連携をとりつつ学校行事のお手伝いをしています。</p>
+        <p>●部活動として</p>
+        <p>人によりますが、平日の放課後が基本的な活動日です。アナウンス、朗読班は発声練習を原則毎日行います。また技術班や脚本担当、ドキュメント班は番組制作の会議や収録、撮影を主な活動​としています。なお班は掛け持ちをしている場合がほとんどです。</p>
       </details>
       <details class="faq">
         <summary>全く経験がないのですが入部できますか？</summary>
@@ -110,13 +181,13 @@
       <details class="faq">
         <summary>大会ではどんな部門がありますか？</summary>
         <p>●朗読部門</p>
-<p>NHK全国放送コンテスト（以下Nコン）では指定作品から、全国総文祭（以下総文）では青空文庫から作品を選び、その作品の中から読みたい部分を2分間の制限時間に合うように選びます。ただ文章をなぞるだけでは朗読としては成立しないですし、演劇しすぎるのも良くない...という簡単なようで奥の深い部門です。</p>
-<p>●アナウンス部門</p>
-<p>朗読部門とは違い、生徒自らが原稿を作成します。ニュースの原稿を想像していただくとわかりやすく、校内や地域の内容が多いです。読みだけでなく原稿内容も審査に影響するので自らの取材力も問われる部門です。</p>
-<p>●ドラマ部門</p>
-<p>Nコンでは創作ラジオドラマ部門と創作テレビドラマ部門があります。脚本作成、キャスト、撮影、アフレコ、編集すべてを生徒が行います。恋愛、ファンタジー、ミステリー、コメディ何でもありです。全国大会で優秀な成績を収める作品は大人顔負けの素晴らしい作品ばかりです。またドラマ部門とドキュメント部門の全国優秀作品はNコンホームページに記載されているので興味のある方は見てみることをおすすめします。</p>
-<p>●ドキュメント部門</p>
-<p>Nコンではラジオドキュメント部門とテレビドキュメント部門、総文ではビデオメッセージ部門とオーディオメッセージ部門があります。取材やアポ取り、インタビュー、アンケートを行いそれを一本のドキュメント作品に仕上げます。内容は高校生らしさを出しつつも、校内のネタに限らず、実際のテレビ局顔負けのものすごく大きな題材を扱う部もあります。</p>
+        <p>NHK全国放送コンテスト（以下Nコン）では指定作品から、全国総文祭（以下総文）では青空文庫から作品を選び、その作品の中から読みたい部分を2分間の制限時間に合うように選びます。ただ文章をなぞるだけでは朗読としては成立しないですし、演劇しすぎるのも良くない...という簡単なようで奥の深い部門です。</p>
+        <p>●アナウンス部門</p>
+        <p>朗読部門とは違い、生徒自らが原稿を作成します。ニュースの原稿を想像していただくとわかりやすく、校内や地域の内容が多いです。読みだけでなく原稿内容も審査に影響するので自らの取材力も問われる部門です。</p>
+        <p>●ドラマ部門</p>
+        <p>Nコンでは創作ラジオドラマ部門と創作テレビドラマ部門があります。脚本作成、キャスト、撮影、アフレコ、編集すべてを生徒が行います。恋愛、ファンタジー、ミステリー、コメディ何でもありです。全国大会で優秀な成績を収める作品は大人顔負けの素晴らしい作品ばかりです。またドラマ部門とドキュメント部門の全国優秀作品はNコンホームページに記載されているので興味のある方は見てみることをおすすめします。</p>
+        <p>●ドキュメント部門</p>
+        <p>Nコンではラジオドキュメント部門とテレビドキュメント部門、総文ではビデオメッセージ部門とオーディオメッセージ部門があります。取材やアポ取り、インタビュー、アンケートを行いそれを一本のドキュメント作品に仕上げます。内容は高校生らしさを出しつつも、校内のネタに限らず、実際のテレビ局顔負けのものすごく大きな題材を扱う部もあります。</p>
       </details>
     </div>
   </section>
@@ -165,18 +236,19 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="sns">
-      <a class="sns-icon" href="https://x.com/abcasaka" target="_blank" rel="noopener" aria-label="X 公式">
-      <img src="./img/x-logo.png" alt="" />
-      </a>
-      <a class="sns-icon" href="https://www.instagram.com/asaka_broadcast" target="_blank" rel="noopener" aria-label="Instagram 公式">
-      <img src="./img/instagram.png" alt="" />
-      </a>
+        <a class="sns-icon" href="https://x.com/abcasaka" target="_blank" rel="noopener" aria-label="X 公式">
+          <img src="./img/x-logo.png" alt="" />
+        </a>
+        <a class="sns-icon" href="https://www.instagram.com/asaka_broadcast" target="_blank" rel="noopener" aria-label="Instagram 公式">
+          <img src="./img/instagram.png" alt="" />
+        </a>
       </div>
       <small>© <span id="year"></span> 安積高校 放送委員会</small>
     </div>
   </footer>
 
   <script src="./script.js"></script>
+  <!-- ブログ読み込み -->
   <script src="https://script.google.com/macros/s/AKfycbwFt9RC_sBI0pLq0VSAHLTCR9DzkCLP19VDu296lo1IgRw4rM3z3VbZFB3xvi_afHfYAw/exec?callback=renderPosts"></script>
 </body>
 </html>

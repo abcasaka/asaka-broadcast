@@ -202,19 +202,20 @@
 
   <!-- contact -->
    <!-- 旧フォーム周りは削除して、この塊に置き換え -->
-<section id="contact" class="section section-contact">
+    <!-- ここから: お問い合わせセクション -->
+<section id="contact" class="section section-contact" data-form-mode="embed">
   <div class="container">
     <h2>お問い合わせ</h2>
 
-    <!-- Instagram等でiframeが無理なときの案内ボックス（最初は非表示。JSで切替） -->
-    <div id="form-inapp-fallback" class="inapp-fallback" hidden>
-      <p>アプリ内ブラウザではフォームを表示できません。下のボタンから外部ブラウザで開いてください。</p>
+    <!-- インアプリブラウザ等で埋め込み不可のときだけ表示（CSSで制御） -->
+    <div id="form-inapp-fallback" class="inapp-fallback">
+      <p>アプリ内ブラウザではフォームを表示できない場合があります。下のボタンから外部ブラウザで開いてください。</p>
       <a class="btn primary"
          href="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform"
          target="_blank" rel="noopener">Googleフォームを開く</a>
     </div>
 
-    <!-- ふつうは常時 iframe を描画 -->
+    <!-- ふだんはこちら（CSSで制御） -->
     <div class="card form-embed" style="padding:0">
       <iframe
         id="gform-frame"
@@ -226,17 +227,16 @@
       </iframe>
     </div>
 
-    <!-- 明示導線（常時表示・別タブ） -->
-    <div class="contact-actions">
+    <!-- 明示導線（埋め込み時のみ見せる） -->
+    <div id="form-external-btn" class="contact-actions">
       <a class="btn outline"
          href="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform"
          target="_blank" rel="noopener">別タブでフォームを開く</a>
     </div>
 
     <noscript>
-      <p>JavaScriptが無効のためフォームの埋め込みが表示できません。
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform" target="_blank" rel="noopener">
-          こちらのリンク</a>から開いてください。</p>
+      <p>JavaScriptが無効のためフォームの埋め込みを表示できません。
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform" target="_blank" rel="noopener">こちらのリンク</a>から開いてください。</p>
     </noscript>
     <p class="muted small">送信内容は <strong>asaka.broadcast.abc@gmail.com</strong> に通知されます。</p>
   </div>

@@ -540,3 +540,23 @@ details.faq{ margin:16px 0 20px }
   .gform-embed{ height: 1500px; }   /* 既定1600→やや短縮。様子見で調整可 */
   .is-brave .gform-embed{ height: 1200px; }
 }
+/* --- 表示トグル（これが重複表示を解消） --- */
+.section-contact[data-form-mode="embed"]    #form-inapp-fallback { display: none !important; }
+.section-contact[data-form-mode="fallback"] #gform-frame         { display: none !important; }
+.section-contact[data-form-mode="fallback"] .form-embed          { display: none !important; } /* 高さも消す */
+.section-contact[data-form-mode="fallback"] #form-external-btn   { display: none !important; } /* 下のボタンは隠す（重複回避） */
+
+/* --- フォールバックカードの見た目 --- */
+.inapp-fallback {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0 0 0;
+  background: #fafafa;
+}
+
+/* --- Braveの“下の謎余白”軽減：埋め込み時のみ高さをやや控えめに --- */
+.is-brave .gform-embed { height: 1100px; }
+.section-contact:last-of-type { margin-bottom: 0 !important; }
+
+/* 既存の .gform-embed 高さ指定はそのまま使ってOK（PC:1200/タブ:1300/スマ:1500〜1600など） */

@@ -268,3 +268,49 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ua.toLowerCase().includes("brave")) markBrave();
   }
 })();
+// ===== 表示モードを一元管理（embed / fallback） =====
+(function(){
+  var sec = document.querySelector('.section-contact');
+  if (!sec) return;
+  var iframe = document.getElementById('gform-frame');
+
+  function setMode(mode){
+    sec.setAttribute('data-form-mode', mode); // CSSが切替
+  }
+
+  // --- インアプリ（Instagram/Facebook/LINEなど）検知 → 強制フォールバック
+  var ua = (navigator.userAgent || '');
+  var isInstagram = ua.includes('Instagram');
+  var isFBApp     = ua.includes('FBAN') || ua.includes('FBAV') || ua.includes('FB_IAB');
+  var isLineApp   = ua.toLowerCase().includes(' line/');
+  var forceNoEmbed = new URLSearchParams(location.search).get('noembed') === '1';
+
+  if (isInstagram || isFBApp || isLineApp || forceNoEmbed) {
+    setMode('fallback');
+  } else {
+    // まずは埋め込みを試み、一定時間ロードされなければ自動フォールバック
+    setMode('embed');
+    if (iframe) {
+      var timedOut = false;
+      var t = setTimeout(function(){
+        timedOut = true;
+        setMode('fallback');
+      }, 3500);
+      iframe.addEventListener('load', function(){
+        if (!timedOut) clearTimeout(t);
+        // 読めたらそのまま embed 維持
+      }, { once: true });
+    }
+  }
+})();
+
+// ===== Brave 検知（高さを控えめにするCSSを有効化） =====
+(function(){
+  function markBrave(){ document.body.classList.add('is-brave'); }
+  if (navigator.brave && typeof navigator.brave.isBrave === 'function') {
+    navigator.brave.isBrave().then(function(isBrave){ if (isBrave) markBrave(); }).catch(function(){});
+  } else {
+    var ua = (navigator.userAgent || '').toLowerCase();
+    if (ua.includes('brave')) markBrave();
+  }
+})();

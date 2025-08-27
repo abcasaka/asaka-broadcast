@@ -320,7 +320,7 @@ details.faq{ margin:16px 0 20px }
     width: min(560px, 92%);
     margin-inline: auto;
   }
-  
+
   /* ロゴは1段目ぶち抜きで「横幅いっぱい」かつ正方形 */
   .hero-main{
     grid-column: 1 / -1;
@@ -357,4 +357,160 @@ details.faq{ margin:16px 0 20px }
 .section:last-of-type{ padding-bottom: 32px; }
 #contact.section{ padding-bottom: 24px; }
 #contact .card{ margin-bottom: 0; }
+/* ===== SNS アイコンボタン（ヘッダー/フッター共通） ===== */
+.sns-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;           /* アイコンの見た目サイズ */
+  height:36px;
+  border-radius:999px;  /* まるいボタン */
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);
+  box-shadow:0 2px 8px rgba(0,0,0,.18);
+  transition:transform .15s ease, background .15s ease;
+}
+.sns-icon:hover{ background:rgba(255,255,255,.12); transform:translateY(-1px); }
+.sns-icon:active{ transform:translateY(0); }
+.sns-icon img{
+  width:70%;    /* 余白を残して中に収める */
+  height:70%;
+  object-fit:contain;
+  display:block;
+}
+
+/* ヘッダーのナビと間隔を合わせる */
+.nav .sns-icon{ padding:0; margin-left:4px; }
+
+/* 小さな画面では少し大きめにすると押しやすい */
+@media (max-width: 700px){
+  .sns-icon{ width:40px; height:40px; }
+}
+
+/* 動きを好まない設定のときはアニメ無効化 */
+@media (prefers-reduced-motion: reduce){
+  .sns-icon{ transition:none; }
+}
+/* ボタン共通 */
+.btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-weight: 600;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+/* ホバーしたときに少し浮く */
+.btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+/* クリック時に少し沈む */
+.btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 3px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* プライマリボタン（問い合わせる） */
+.btn.primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+}
+.btn.primary:hover {
+  background: #2563eb; /* 少し濃い青 */
+}
+
+/* ゴーストボタン（活動を知る） */
+.btn.ghost {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+.btn.ghost:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+/* ==== ブログカード：ホバーで少し浮く・サムネはふわっと拡大 ==== */
+.cards .card{
+  transition: transform .18s ease, box-shadow .22s ease, border-color .22s ease;
+  border-color: var(--border);
+}
+.cards .card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+  border-color: rgba(59,130,246,.35); /* うっすら青みの縁 */
+}
+
+/* サムネ画像はほんの少しズーム＆明るさアップ */
+.card-thumb{
+  transition: transform .35s ease, filter .35s ease, opacity .35s ease;
+  will-change: transform, filter;
+}
+.cards .card:hover .card-thumb{
+  transform: scale(1.03);
+  filter: brightness(1.05);
+}
+
+/* ==== 「続きを読む」リンクをボタンっぽく・ホバーが分かる ==== */
+.text-link.readmore{
+  position: relative;
+  display: inline-block;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--primary);
+  transition: color .2s ease, transform .15s ease, box-shadow .2s ease, background .2s ease;
+}
+
+/* うっすら下線アニメ（背景の線が伸びるイメージ） */
+.text-link.readmore::after{
+  content:"";
+  position:absolute; left:12px; right:12px; bottom:6px;
+  height:2px; border-radius:2px;
+  background: currentColor;
+  transform: scaleX(.15);
+  transform-origin: left center;
+  opacity:.35;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+.text-link.readmore:hover{
+  transform: translateY(-2px);
+  background: rgba(59,130,246,.10);
+  box-shadow: 0 6px 16px rgba(59,130,246,.25);
+}
+.text-link.readmore:hover::after{
+  transform: scaleX(1);
+  opacity:.7;
+}
+
+.text-link.readmore:active{
+  transform: translateY(0) scale(.98);
+  box-shadow: 0 3px 8px rgba(59,130,246,.18);
+}
+
+/* キーボード操作でも分かるフォーカスリング */
+.text-link.readmore:focus-visible{
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.45);
+}
+
+/* 低モーション設定のRespect */
+@media (prefers-reduced-motion: reduce){
+  .cards .card,
+  .card-thumb,
+  .text-link.readmore,
+  .text-link.readmore::after{
+    transition: none !important;
+  }
+}
 

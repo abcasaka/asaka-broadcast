@@ -216,5 +216,55 @@ document.addEventListener('DOMContentLoaded', () => {
   // 画像も含め読み込み完了後に起動
   window.addEventListener('load', boot);
 })();
+// ===== Instagram / Facebook 等のアプリ内ブラウザ検知 → 外部リンク案内に切替 =====
+(function(){
+  var ua = navigator.userAgent || "";
+  var isInstagram = ua.includes("Instagram");
+  var isFBApp     = ua.includes("FBAN") || ua.includes("FBAV") || ua.includes("FB_IAB");
+  var isLineApp   = ua.toLowerCase().includes(" line/"); // 念のため
+  var isInApp = isInstagram || isFBApp || isLineApp;
 
+  var forceNoEmbed = new URLSearchParams(location.search).get("noembed") === "1";
 
+  if (isInApp || forceNoEmbed) {
+    // 埋め込みは隠し、外部で開く導線を見せる
+    var iframe = document.getElementById("gform-frame");
+    var fb = document.getElementById("form-inapp-fallback");
+    if (iframe) iframe.setAttribute("hidden", "hidden");
+    if (fb) fb.hidden = false;
+    document.body.classList.add("is-inapp");
+  } else {
+    // 念のためロード失敗時（3.5秒）にも自動フォールバック
+    var timedOut = false;
+    var iframe = document.getElementById("gform-frame");
+    var fb = document.getElementById("form-inapp-fallback");
+    if (iframe && fb) {
+      var t = setTimeout(function(){
+        timedOut = true;
+        iframe.setAttribute("hidden","hidden");
+        fb.hidden = false;
+      }, 3500);
+      iframe.addEventListener("load", function(){
+        if (!timedOut) clearTimeout(t);
+        // 読めたらそのまま表示
+      }, {once:true});
+    }
+  }
+})();
+
+// ===== Brave 検知 → 高さ控えめのCSSを有効化（余白対策） =====
+(function(){
+  // Braveは navigator.brave が存在する場合が多い
+  function markBrave(){
+    document.body.classList.add("is-brave");
+  }
+  if (navigator.brave && typeof navigator.brave.isBrave === "function") {
+    navigator.brave.isBrave().then(function(isBrave){
+      if (isBrave) markBrave();
+    }).catch(function(){});
+  } else {
+    // UAヒューリスティック（保険）
+    var ua = navigator.userAgent || "";
+    if (ua.toLowerCase().includes("brave")) markBrave();
+  }
+})();

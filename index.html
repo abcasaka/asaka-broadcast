@@ -201,31 +201,43 @@
   </section>
 
   <!-- contact -->
-  <section id="contact" class="section alt reveal fast" style="--d:120ms" data-th="0.25">
+   <!-- 旧フォーム周りは削除して、この塊に置き換え -->
+<section id="contact" class="section section-contact">
   <div class="container">
     <h2>お問い合わせ</h2>
 
-    <!-- ▼ スマホ優先：ボタン（常に表示）。PCでは iframe も併記 -->
-    <!-- 既存を全削除して、下の塊に差し替え -->
-<div class="contact-actions">
-  <a class="btn primary contact-open"
-     href="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform"
-     target="_blank" rel="noopener"
-     aria-label="Googleフォームを新しいタブで開く">フォームを開く</a>
-  <span class="muted small">（スマホ推奨：別タブで開きます）</span>
-</div>
+    <!-- Instagram等でiframeが無理なときの案内ボックス（最初は非表示。JSで切替） -->
+    <div id="form-inapp-fallback" class="inapp-fallback" hidden>
+      <p>アプリ内ブラウザではフォームを表示できません。下のボタンから外部ブラウザで開いてください。</p>
+      <a class="btn primary"
+         href="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform"
+         target="_blank" rel="noopener">Googleフォームを開く</a>
+    </div>
 
-<!-- 常時表示の iframe。JSでの切替や高さ調整はしない -->
-<div class="card form-embed" style="padding:0">
-  <iframe
-    class="gform-embed"
-    title="お問い合わせフォーム"
-    src="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform?embedded=true"
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade">
-  </iframe>
-</div>
+    <!-- ふつうは常時 iframe を描画 -->
+    <div class="card form-embed" style="padding:0">
+      <iframe
+        id="gform-frame"
+        class="gform-embed"
+        title="お問い合わせフォーム"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform?embedded=true"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
 
+    <!-- 明示導線（常時表示・別タブ） -->
+    <div class="contact-actions">
+      <a class="btn outline"
+         href="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform"
+         target="_blank" rel="noopener">別タブでフォームを開く</a>
+    </div>
+
+    <noscript>
+      <p>JavaScriptが無効のためフォームの埋め込みが表示できません。
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform" target="_blank" rel="noopener">
+          こちらのリンク</a>から開いてください。</p>
+    </noscript>
     <p class="muted small">送信内容は <strong>asaka.broadcast.abc@gmail.com</strong> に通知されます。</p>
   </div>
 </section>

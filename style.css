@@ -516,3 +516,27 @@ details.faq{ margin:16px 0 20px }
 .form-embed{
   overflow:visible;
 }
+/* --- 追加: アプリ内ブラウザ切替時の見た目 --- */
+.inapp-fallback[hidden] { display: none !important; }
+.inapp-fallback {
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0 0 0;
+  background: var(--bg-soft, #fafafa);
+}
+
+/* Brave での余白発生を抑える（高さを控えめに＆最終セクションの下余白をゼロ） */
+.is-brave .gform-embed {
+  height: 1100px;          /* ほんの少し短めに（必要なら 1000〜1200 で微調整） */
+}
+.section-contact:last-of-type { margin-bottom: 0 !important; }
+
+/* もしフォーム直下の余白が気になる場合はカードの余白も詰める */
+.section-contact .card.form-embed { margin-bottom: 12px; }
+
+/* 追加：小さめ端末の時は Brave 以外でも少し短く（空白の見えを軽減） */
+@media (max-width:700px){
+  .gform-embed{ height: 1500px; }   /* 既定1600→やや短縮。様子見で調整可 */
+  .is-brave .gform-embed{ height: 1200px; }
+}

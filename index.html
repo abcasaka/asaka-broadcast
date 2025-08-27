@@ -201,26 +201,32 @@
   </section>
 
   <!-- contact -->
-  <section id="contact" class="section alt reveal fast" style="--d:120ms" data-th="0.3">
-    <div class="container">
-      <h2>お問い合わせ</h2>
+  <section id="contact" class="section alt reveal fast" style="--d:120ms" data-th="0.25">
+  <div class="container">
+    <h2>お問い合わせ</h2>
 
-      <div class="card contact-card" style="padding:0">
-        <iframe
-          class="gform-embed"
-          src="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform?embedded=true"
-          width="100%"
-          title="お問い合わせフォーム"
-          frameborder="0"
-          marginwidth="0"
-          marginheight="0"
-          scrolling="auto">
-        </iframe>
-      </div>
-
-      <p class="muted small">送信内容は <strong>asaka.broadcast.abc@gmail.com</strong> に通知されます。</p>
+    <!-- ▼ スマホ優先：ボタン（常に表示）。PCでは iframe も併記 -->
+    <div class="contact-actions">
+      <a class="btn primary contact-open"
+         href="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform"
+         target="_blank" rel="noopener"
+         aria-label="Googleフォームを新しいタブで開く">フォームを開く</a>
+      <span class="muted small">（スマホ推奨：別タブで開きます）</span>
     </div>
-  </section>
+
+    <!-- ▼ PC だけで使う iframe。JSで幅を見て遅延ロードします -->
+    <div class="card form-embed" style="padding:0" data-form-src="https://docs.google.com/forms/d/e/1FAIpQLSfTn1f9qmFHjAX_4qGUpIE02HubTyvefVNIaBAPV28teR2zMg/viewform?embedded=true">
+      <iframe title="お問い合わせフォーム" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              style="width:100%; border:0; display:none;"></iframe>
+      <div class="form-loading muted small" aria-live="polite" style="padding:12px 16px; display:none;">
+        フォームを読み込んでいます…
+      </div>
+    </div>
+
+    <p class="muted small">送信内容は <strong>asaka.broadcast.abc@gmail.com</strong> に通知されます。</p>
+  </div>
+</section>
+
 
   <!-- モーダル -->
   <dialog id="postDialog" class="post-dialog">

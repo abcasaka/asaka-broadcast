@@ -513,4 +513,17 @@ details.faq{ margin:16px 0 20px }
     transition: none !important;
   }
 }
-
+/* お問い合わせ：ボタン行 */
+.contact-actions{
+  display:flex; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap;
+}
+@media (max-width: 700px){
+  /* スマホでは iframe コンテナの余白を詰め、はみ出しを抑制 */
+  .form-embed{ margin-top: 8px; }
+}
+/* 既存 .hero を上書き：スマホ時は上下パディングを小さく */
+@media (max-width: 700px){
+  .hero{ padding: 68px 0 40px; } /* 例: 上68 / 下40 に短縮 */
+  .hero-strip{ margin-top: 8px; } /* 画像帯と見出しの距離を詰める */
+  .hero .cta-row{ margin-top: 14px; }
+}

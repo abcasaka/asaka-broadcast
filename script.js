@@ -259,4 +259,53 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('load', setH);
   window.addEventListener('resize', setH);
 })();
+/* ===== PCだけフォームを埋め込み、スマホはボタンのみ ===== */
+(function setupContactForm(){
+  const wrap = document.querySelector('.form-embed');
+  if(!wrap) return;
+
+  const iframe = wrap.querySelector('iframe');
+  const loading = wrap.querySelector('.form-loading');
+  const src = wrap.getAttribute('data-form-src');
+
+  const isDesktop = () => window.innerWidth >= 900;
+
+  function mountIframe(){
+    if (!iframe || iframe.src) return;        // 二重初期化防止
+    iframe.style.display = 'block';
+    loading.style.display = 'block';
+    iframe.src = src;
+
+    let done = false;
+    const cleanup = () => { done = true; loading.style.display = 'none'; };
+    iframe.addEventListener('load', cleanup, { once:true });
+
+    // 6秒経っても load しなければフォールバック（ボタン利用を促す）
+    setTimeout(() => {
+      if (done) return;
+      iframe.style.display = 'none';
+      loading.textContent = 'このブラウザではフォームの埋め込みが不安定です。上の「フォームを開く」から別タブで開いてください。';
+    }, 6000);
+  }
+
+  function unmountIframe(){
+    if (!iframe || !iframe.src) return;
+    iframe.removeAttribute('src');
+    iframe.style.display = 'none';
+    loading.style.display = 'none';
+  }
+
+  // 初期表示
+  if (isDesktop()) mountIframe();
+
+  // 画面幅が変わったら切替
+  let resizeTimer;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(()=>{
+      if (isDesktop()) mountIframe(); else unmountIframe();
+    }, 200);
+  });
+})();
+
 

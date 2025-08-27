@@ -258,18 +258,6 @@ details.faq{ margin:16px 0 20px }
 }
 /* ===== FIX: Hero strip layout 強制指定（競合の上から確実に勝つ） ===== */
 
-/* Googleフォーム埋め込みのデフォルト高さ（JSでさらに上書き） */
-.gform-embed{
-  display:block;
-  width:100%;
-  height: 1200px;       /* PCの最低高さ */
-  border:0;
-}
-
-/* スマホは少し高めに（フォーム項目が縦に増えるため） */
-@media (max-width: 700px){
-  .gform-embed{ height: 1600px; }
-}
 /* ========== ヒーロー帯：PCは横一列、スマホは2x2の正方形 ========== */
 /* === ヒーロー帯：PCは横1行、左右の間隔をロゴと等しく === */
 .hero-strip{
@@ -338,21 +326,6 @@ details.faq{ margin:16px 0 20px }
   }
 }
 
-/* === お問い合わせ iframe：デフォルト高 + 端末別最適化 === */
-.gform-embed{
-  display:block;
-  width:100%;
-  height: 1200px;        /* PC向け基準（JSが上書き） */
-  border:0;
-}
-@media (max-width: 1024px){
-  /* タブレット以下は画面高に合わせて下の空白を減らす */
-  .gform-embed{ height: min(900px, 85vh); }
-}
-@media (max-width: 700px){
-  /* スマホはさらにコンパクトに（空白削減） */
-  .gform-embed{ height: min(820px, 78vh); }
-}
 /* contact セクションは下の余白を詰め気味に */
 .section:last-of-type{ padding-bottom: 32px; }
 #contact.section{ padding-bottom: 24px; }
@@ -517,13 +490,29 @@ details.faq{ margin:16px 0 20px }
 .contact-actions{
   display:flex; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap;
 }
-@media (max-width: 700px){
-  /* スマホでは iframe コンテナの余白を詰め、はみ出しを抑制 */
-  .form-embed{ margin-top: 8px; }
-}
 /* 既存 .hero を上書き：スマホ時は上下パディングを小さく */
 @media (max-width: 700px){
   .hero{ padding: 68px 0 40px; } /* 例: 上68 / 下40 に短縮 */
   .hero-strip{ margin-top: 8px; } /* 画像帯と見出しの距離を詰める */
   .hero .cta-row{ margin-top: 14px; }
+}
+/* === Google Form: シンプル固定高（JSでの高さ制御はしない） === */
+.gform-embed{
+  display:block;
+  width:100%;
+  height:1200px;   /* PC/タブレットの目安 */
+  border:0;
+}
+
+@media (max-width:1024px){
+  .gform-embed{ height:1300px; } /* タブレットは少し余裕 */
+}
+
+@media (max-width:700px){
+  .gform-embed{ height:1600px; } /* スマホは縦並びで長くなる */
+}
+
+/* もしフォーム周りにラッパーがあれば、はみ出し防止だけ許可 */
+.form-embed{
+  overflow:visible;
 }

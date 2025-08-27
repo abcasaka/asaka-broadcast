@@ -283,6 +283,7 @@ details.faq{ margin:16px 0 20px }
 }
 .hero-thumb,
 .hero-main{
+  --heroSize: clamp(140px, 16vw, 200px);
   width: var(--heroSize);
   height: var(--heroSize);
   border-radius: 12px;
@@ -298,13 +299,28 @@ details.faq{ margin:16px 0 20px }
 .hero-thumb.is-in{ opacity: 1; transform: translateX(0) }
 
 /* === スマホ：ロゴを横幅いっぱい、その上下に2×2で4枚 === */
-@media (max-width: 700px){
   .hero-strip{
-    grid-template-columns: 1fr 1fr; /* 2列 */
+    display: grid;
+    justify-content: center;/* 2列 */
+    align-items: center;
+    gap: 16px;  /* 画面に収まる最大幅 */
+    margin-bottom: 14px;
+  }
+
+  @media (min-width: 701px){
+    .hero-strip{
+      grid-template-columns: repeat(5, var(--heroSize));
+    }
+  }
+
+  @media (max-width: 700px){
+  .hero-strip{
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
-    width: min(560px, 92%);  /* 画面に収まる最大幅 */
+    width: min(560px, 92%);
     margin-inline: auto;
   }
+  
   /* ロゴは1段目ぶち抜きで「横幅いっぱい」かつ正方形 */
   .hero-main{
     grid-column: 1 / -1;

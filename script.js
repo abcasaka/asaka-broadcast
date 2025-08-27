@@ -244,3 +244,19 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('load', fitGForm);
   window.addEventListener('resize', onResize);
 })();
+// === 追記：お問い合わせフォームの高さを端末に合わせて最適化 ===
+(function tuneGFormHeight(){
+  const setH = () => {
+    const ifr = document.querySelector('.gform-embed');
+    if (!ifr) return;
+    // 目安: PCは 70~85vh、スマホは 72~82vh で下の空白を抑える
+    const vh = window.innerHeight;
+    const isSmall = window.matchMedia('(max-width:700px)').matches;
+    const target = Math.round(vh * (isSmall ? 0.78 : 0.82));
+    // ほどよい下限/上限を設定（長すぎ/短すぎ防止）
+    ifr.style.height = Math.max(700, Math.min(target, 1100)) + 'px';
+  };
+  window.addEventListener('load', setH);
+  window.addEventListener('resize', setH);
+})();
+

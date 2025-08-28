@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://abcasaka.github.io/asaka-broadcast/sitemap.xml
+Sitemap: https://abcasaka.github.io/asaka-broadcast/sitemap_index.xml

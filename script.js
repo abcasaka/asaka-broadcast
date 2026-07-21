@@ -39,7 +39,7 @@ function renderPosts(payload) {
     const slug = encodeURIComponent(p.slug || '');
 
     return `
-      <article class="card reveal" style="--d:${i*80}ms">
+      <article class="card reveal${p.slug ? ' card-link' : ''}"${p.slug ? ` data-slug="${slug}"` : ''} style="--d:${i*80}ms">
         <div class="card-thumb" style="background:${thumb}" aria-hidden="true"></div>
         <div class="card-body">
           <h3 class="card-title">${escapeHTML(p.title || '')}</h3>
@@ -71,6 +71,13 @@ function renderPosts(payload) {
 
 // ===== モーダル制御 =====
 function onReadMoreClick(e) {
+  // カードのどこをクリックしても記事を開く
+  const card = e.target.closest('.card[data-slug]');
+  if (card) {
+    e.preventDefault();
+    openPost(decodeURIComponent(card.dataset.slug || ''));
+    return;
+  }
   const a = e.target.closest('a.readmore');
   if (!a) return;
   e.preventDefault();

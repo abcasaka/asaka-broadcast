@@ -248,22 +248,28 @@ details.faq{ margin:16px 0 20px }
 .post-dialog::backdrop{ background:rgba(0,0,0,.6) }
 .post-article{ padding:56px 22px 26px; position:relative }
 .post-close{
-  position:absolute; top:12px; right:12px;
-  width:40px; height:40px; border-radius:50%;
-  border:0; background:rgba(15,23,42,.06); color:var(--text);
-  font-size:24px; line-height:1; cursor:pointer;
+  position:absolute; top:10px; right:10px;
+  width:50px; height:50px; border-radius:50%;
+  border:0; background:rgba(128,128,128,.16); color:var(--text);
+  font-size:32px; line-height:1; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
   transition:background .18s, transform .18s;
 }
-.post-close:hover{ background:rgba(15,23,42,.14); transform:scale(1.06) }
+.post-close:hover{ background:rgba(128,128,128,.30); transform:scale(1.06) }
 .post-share{
   position:absolute; top:16px; left:20px;
-  border:1px solid rgba(15,23,42,.14); background:#fff; color:var(--text);
-  border-radius:999px; padding:8px 16px; font-size:.86rem; font-weight:600; cursor:pointer;
+  border:0; background:linear-gradient(120deg,#3b82f6,#10b981); color:#fff;
+  border-radius:999px; padding:9px 18px; font-size:.9rem; font-weight:700; cursor:pointer;
   display:inline-flex; align-items:center; gap:6px;
-  transition:background .18s, box-shadow .18s;
+  box-shadow:0 2px 8px rgba(16,185,129,.28);
+  transition:transform .18s, box-shadow .18s, opacity .18s;
 }
-.post-share:hover{ background:#f8fafc; box-shadow:0 2px 8px rgba(15,23,42,.08) }
+.post-share:hover{ transform:translateY(-1px); box-shadow:0 4px 12px rgba(16,185,129,.38) }
+.post-share:active{ opacity:.85 }
+/* 記事カード全体をクリックで開けるように */
+.card.card-link{ cursor:pointer }
+.card.card-link:hover{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,.12) }
+.card.card-link{ transition:transform .18s, box-shadow .18s }
 #postImage{ display:block; max-width:100%; width:auto; height:auto; max-height:380px; margin:0 auto 14px; border-radius:12px }
 .share-toast{
   position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(16px);

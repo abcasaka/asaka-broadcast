@@ -64,6 +64,9 @@ function renderPosts(payload) {
   armReveals();
 
   wrap.addEventListener('click', onReadMoreClick);
+
+  // 共有リンク（#post/スラッグ 付き）で開かれた場合、その記事を自動で開く
+  handleHash();
 }
 
 // ===== モーダル制御 =====
@@ -97,7 +100,7 @@ function openPost(slug) {
     imgEl.hidden = true;
   }
 
-  dlg.showModal();
+  if (!dlg.open) dlg.showModal();
   location.hash = `#post/${encodeURIComponent(slug)}`;
 }
 
@@ -108,6 +111,41 @@ if (closeBtn) {
     if (dlg?.open) dlg.close();
     clearPostHash();
   });
+}
+
+// ===== 共有ボタン =====
+const shareBtn = document.getElementById('postShare');
+if (shareBtn) {
+  shareBtn.addEventListener('click', async () => {
+    const url = location.origin + location.pathname + location.hash; // #post/スラッグ 付き
+    const title = document.getElementById('postTitle')?.textContent || document.title;
+    // スマホ等はOSの共有シートを使う
+    if (navigator.share) {
+      try { await navigator.share({ title, url }); } catch (e) { /* キャンセルは無視 */ }
+      return;
+    }
+    // PCはクリップボードにコピー
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast('リンクをコピーしました');
+    } catch (e) {
+      window.prompt('このリンクをコピーしてください', url);
+    }
+  });
+}
+
+function showToast(msg) {
+  let t = document.getElementById('shareToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'shareToast';
+    t.className = 'share-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
 window.addEventListener('hashchange', handleHash);
